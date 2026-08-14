@@ -1,0 +1,358 @@
+/* ========================================
+   AllAble - Accessibility Themes
+   ثيمات مخصصة لكل نوع إعاقة
+   ======================================== */
+
+/* ========== إعاقة سمعية (Hearing) ========== */
+body.theme-hearing {
+    --primary-color: #667eea;
+    --primary-dark: #5568d3;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.theme-hearing .visual-alert {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--gradient-primary);
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    z-index: 9999;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* تكبير الخطوط للإعاقة السمعية - تم إلغاؤه بناءً على رغبة المستخدم */
+/* body.theme-hearing {
+    font-size: 18px;
+} */
+
+/* ========== إعاقة بصرية (Visual) ========== */
+body.theme-visual {
+    /* لوحة ألوان عصرية وذات تباين عالي */
+    --primary-color: #00E5FF;
+    /* Cyan Neon */
+    --primary-dark: #2979FF;
+    /* Bright Blue */
+    --gradient-primary: linear-gradient(135deg, #00E5FF 0%, #2979FF 100%);
+
+    /* خلفيات داكنة عصرية بدلاً من الأسود المصمت */
+    --bg-primary: #0F172A;
+    /* Deep Navy */
+    --bg-secondary: #1E293B;
+    /* Slate */
+    --bg-tertiary: #334155;
+    /* Light Slate */
+
+    /* نصوص واضحة جداً */
+    --text-primary: #FFFFFF;
+    --text-secondary: #E2E8F0;
+    --text-muted: #94A3B8;
+}
+
+/* خطوط ضخمة */
+body.theme-visual {
+    font-size: 22px;
+    line-height: 2;
+}
+
+body.theme-visual h1 {
+    font-size: 4.5rem;
+}
+
+body.theme-visual h2 {
+    font-size: 4rem;
+}
+
+body.theme-visual h3 {
+    font-size: 3.5rem;
+}
+
+/* أزرار ضخمة */
+body.theme-visual .btn,
+body.theme-visual button {
+    min-height: 80px;
+    font-size: 1.8rem;
+    padding: var(--spacing-xl) var(--spacing-3xl);
+}
+
+body.theme-visual .emergency-fab {
+    width: 100px;
+    height: 100px;
+    font-size: 3rem;
+}
+
+/* حدود واضحة جداً */
+body.theme-visual *:focus {
+    outline: 4px solid #00E5FF;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+/* ========== إعاقة حركية (Motor) ========== */
+body.theme-motor {
+    --primary-color: #4facfe;
+    --primary-dark: #00f2fe;
+    --gradient-primary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* أزرار كبيرة جداً مع مسافات واسعة */
+body.theme-motor .btn,
+body.theme-motor button {
+    min-height: 70px;
+    min-width: 150px;
+    font-size: 1.5rem;
+    padding: var(--spacing-xl) var(--spacing-2xl);
+    margin: var(--spacing-md);
+}
+
+body.theme-motor .disability-card {
+    padding: var(--spacing-3xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* مسافات كبيرة بين العناصر */
+body.theme-motor *+* {
+    margin-top: var(--spacing-lg);
+}
+
+/* تقليل الحاجة للدقة */
+body.theme-motor a,
+body.theme-motor button {
+    padding: var(--spacing-xl) var(--spacing-2xl);
+}
+
+/* ========== إعاقة ذهنية/توحد (Cognitive) ========== */
+body.theme-cognitive {
+    --primary-color: #43e97b;
+    --primary-dark: #38f9d7;
+    --gradient-primary: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+
+    /* ألوان هادئة */
+    --bg-primary: #f0f4f8;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e2e8f0;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+}
+
+/* تصميم بسيط جداً */
+body.theme-cognitive * {
+    animation: none !important;
+    transition: none !important;
+}
+
+body.theme-cognitive .animated-shapes,
+body.theme-cognitive .shape {
+    display: none;
+}
+
+/* خطوط واضحة وبسيطة */
+body.theme-cognitive {
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+/* إخفاء العناصر المعقدة */
+body.theme-cognitive .hero-features {
+    display: none;
+}
+
+/* تبسيط البطاقات */
+body.theme-cognitive .disability-card {
+    background: white;
+    border: 3px solid var(--primary-color);
+    box-shadow: none;
+}
+
+body.theme-cognitive .disability-card:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== صعوبات تعلم (Learning) ========== */
+body.theme-learning {
+    --primary-color: #fa709a;
+    --primary-dark: #fee140;
+    --gradient-primary: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+
+    /* ألوان دافئة ومريحة */
+    --bg-primary: #fef3c7;
+    --bg-secondary: #fffbeb;
+    --bg-tertiary: #fde68a;
+    --text-primary: #78350f;
+    --text-secondary: #92400e;
+}
+
+/* خطوط واضحة */
+body.theme-learning {
+    font-size: 20px;
+    line-height: 2;
+    letter-spacing: 0.5px;
+}
+
+/* تباعد بين الأحرف */
+body.theme-learning p,
+body.theme-learning span {
+    word-spacing: 3px;
+}
+
+/* تبسيط المحتوى */
+body.theme-learning .hero-tagline {
+    font-size: 1.3rem;
+    line-height: 2.2;
+}
+
+/* رموز كبيرة وواضحة */
+body.theme-learning i {
+    font-size: 1.5em;
+}
+
+/* ========== وضع التباين العالي ========== */
+body.high-contrast {
+    --bg-primary: #000000;
+    --bg-secondary: #000000;
+    --bg-tertiary: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --text-muted: #cccccc;
+}
+
+body.high-contrast * {
+    border-color: #ffffff !important;
+}
+
+body.high-contrast button,
+body.high-contrast .btn {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 3px solid #ffffff !important;
+}
+
+/* ========== وضع الخط الكبير ========== */
+body.large-text {
+    font-size: 24px;
+}
+
+body.large-text h1 {
+    font-size: 5rem;
+}
+
+body.large-text h2 {
+    font-size: 4.5rem;
+}
+
+body.large-text h3 {
+    font-size: 4rem;
+}
+
+body.large-text .btn,
+body.large-text button {
+    font-size: 2rem;
+    padding: var(--spacing-xl) var(--spacing-3xl);
+}
+
+/* ========== وضع تقليل الحركة ========== */
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+/* ========== وضع القراءة ========== */
+body.reading-mode {
+    --bg-primary: #f5f1e8;
+    --bg-secondary: #ffffff;
+    --text-primary: #2d2d2d;
+    --text-secondary: #4a4a4a;
+}
+
+body.reading-mode {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+/* ========== وضع الليل ========== */
+body.dark-mode {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+}
+
+/* ========== إمكانية الوصول للكيبورد ========== */
+body.keyboard-navigation *:focus {
+    outline: 4px solid var(--accent-color);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
+/* ========== مؤشر كبير ========== */
+body.large-cursor * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="white" stroke="black" stroke-width="2" d="M2 2 L2 28 L12 18 L18 28 L22 26 L16 16 L28 16 Z"/></svg>'), auto;
+}
+
+/* ========== تسليط الضوء على العنصر النشط ========== */
+body.highlight-focus *:focus {
+    position: relative;
+    z-index: 999;
+}
+
+body.highlight-focus *:focus::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 5px solid var(--accent-color);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+    animation: focusPulse 1s ease-in-out infinite;
+}
+
+@keyframes focusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 768px) {
+
+    body.theme-visual .btn,
+    body.theme-visual button {
+        min-height: 70px;
+        font-size: 1.5rem;
+    }
+
+    body.theme-motor .btn,
+    body.theme-motor button {
+        min-height: 60px;
+        font-size: 1.3rem;
+    }
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Able - التواصل البديل</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <!-- الشريط العلوي -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-universal-access"></i>
+                <span>All-Able</span>
+            </div>
+
+            <h2>التواصل البديل (AAC)</h2>
+
+            <button class="back-btn-header" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-right"></i>
+                رجوع
+            </button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="aac-main">
+        <!-- اختيار اللوحة -->
+        <div class="board-selector">
+            <button class="board-btn active" data-board="basic">
+                <i class="fas fa-star"></i>
+                <span>أساسي</span>
+            </button>
+            <button class="board-btn" data-board="feelings">
+                <i class="fas fa-heart"></i>
+                <span>مشاعر</span>
+            </button>
+            <button class="board-btn" data-board="needs">
+                <i class="fas fa-hand-paper"></i>
+                <span>احتياجات</span>
+            </button>
+            <button class="board-btn" data-board="food">
+                <i class="fas fa-utensils"></i>
+                <span>طعام</span>
+            </button>
+            <button class="board-btn" data-board="activities">
+                <i class="fas fa-running"></i>
+                <span>أنشطة</span>
+            </button>
+        </div>
+
+        <!-- الجملة المكونة -->
+        <div class="sentence-builder">
+            <div class="sentence-display" id="sentence-display">
+                <p id="sentence-text">اضغط على الرموز لتكوين جملة...</p>
+            </div>
+            <div class="sentence-actions">
+                <button class="btn btn-primary" id="speak-sentence">
+                    <i class="fas fa-volume-up"></i>
+                    نطق الجملة
+                </button>
+                <button class="btn btn-secondary" id="clear-sentence">
+                    <i class="fas fa-trash"></i>
+                    مسح
+                </button>
+                <button class="btn btn-secondary" id="save-sentence">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+
+        <!-- لوحة الرموز -->
+        <div class="symbols-board" id="symbols-board">
+            <!-- سيتم ملؤها بالرموز -->
+        </div>
+
+        <!-- الجمل المحفوظة -->
+        <div class="saved-sentences">
+            <h3>جمل محفوظة</h3>
+            <div id="saved-list" class="saved-list">
+                <p class="no-saved">لا توجد جمل محفوظة</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- زر الطوارئ -->
+    <button class="emergency-fab" onclick="window.location.href='emergency.html'">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/aac.js"></script>
+
+    <style>
+        .dashboard-header {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .back-btn-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .back-btn-header:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .aac-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .board-selector {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+            overflow-x: auto;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .board-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            min-width: 100px;
+        }
+
+        .board-btn:hover,
+        .board-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .board-btn i {
+            font-size: var(--font-size-2xl);
+        }
+
+        .sentence-builder {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sentence-display {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #sentence-text {
+            font-size: var(--font-size-2xl);
+            color: var(--text-primary);
+            text-align: center;
+            margin: 0;
+        }
+
+        .sentence-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .symbols-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .symbol-card {
+            background: var(--bg-secondary);
+            border: 3px solid var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .symbol-card:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .symbol-card:active {
+            transform: scale(0.95);
+        }
+
+        .symbol-icon {
+            font-size: 4rem;
+        }
+
+        .symbol-text {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .saved-sentences {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .saved-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .saved-item {
+            background: var(--bg-primary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+        }
+
+        .saved-item-text {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .saved-item-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .no-saved {
+            text-align: center;
+            color: var(--text-muted);
+            padding: var(--spacing-2xl);
+        }
+
+        @media (max-width: 768px) {
+            .symbols-board {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .aac-main {
+                padding: var(--spacing-lg);
+            }
+        }
+    </style>
+</body>
+
+</html>

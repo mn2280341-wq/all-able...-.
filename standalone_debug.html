@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AllAble Standalone Debugger</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+            direction: rtl;
+        }
+
+        .box {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .success {
+            border-right: 5px solid green;
+        }
+
+        .error {
+            border-right: 5px solid red;
+            background: #ffebee;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>تشخيص المشاكل (وضع الملف الواحد)</h1>
+    <p>هذه الصفحة تحتوي على كل الأكواد اللازمة لتعمل بشكل مستقل.</p>
+    <div id="results"></div>
+    <button class="btn" onclick="runDiagnostics()">بدء الفحص</button>
+    <button class="btn" style="background: #333;" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+
+    <script>
+        function log(msg, type = 'info') {
+            const el = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `box ${type === 'error' ? 'error' : 'success'}`;
+            div.innerHTML = `<strong>${type.toUpperCase()}:</strong> ${msg}`;
+            el.appendChild(div);
+            console.log(`[${type}] ${msg}`);
+        }
+    </script>
+
+    <!-- INLINE CONFIG.JS -->
+    <script>
+        try {
+            log('Initializing Configuration...');
+            const CONFIG = {
+                GEMINI_API_KEY: 'AIzaSyBaa1jCuPJ-MNL8OdGxWE2i1sfYIL-xQ-8',
+                GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+                YOUTUBE_API_KEY: 'AIzaSyClxsHf3tZd1rjsZVylQxTUfSgWlwtjk-8',
+                YOUTUBE_API_URL: 'https://www.googleapis.com/youtube/v3',
+                MEDIAPIPE_ENABLED: true,
+                USE_BACKEND: true,
+                BACKEND_URL: 'http://localhost:5000',
+                APP_NAME: 'All-Able',
+                APP_VERSION: '2.0.0',
+                DEFAULT_LANGUAGE: 'ar',
+                SUPPORTED_LANGUAGES: ['ar', 'en', 'fr'],
+                DISABILITY_TYPES: {
+                    HEARING: 'hearing',
+                    VISUAL: 'visual',
+                    MOTOR: 'motor',
+                    COGNITIVE: 'cognitive',
+                    LEARNING: 'learning'
+                },
+                STORAGE_KEYS: {
+                    USER_PROFILE: 'allable_user_profile',
+                    DISABILITY_TYPE: 'allable_disability_type',
+                    PREFERENCES: 'allable_preferences',
+                    EMERGENCY_CONTACTS: 'allable_emergency_contacts'
+                },
+                EMERGENCY: {
+                    DEFAULT_MESSAGE: 'أحتاج مساعدة عاجلة! هذه رسالة طوارئ من تطبيق AllAble.',
+                    LOCATION_TIMEOUT: 10000
+                }
+            };
+            window.CONFIG = CONFIG;
+            log('Ref: Configuration Loaded (Inline).');
+        } catch (e) {
+            log('Critical Error in Config Block: ' + e.message, 'error');
+        }
+    </script>
+
+    <!-- INLINE UTILS.JS -->
+    <script>
+        try {
+            log('Initializing Utilities...');
+
+            function saveToStorage(key, value) {
+                try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+                catch (error) { console.error('Storage Error:', error); return false; }
+            }
+
+            function getFromStorage(key, defaultValue = null) {
+                try { const item = localStorage.getItem(key); return item ? JSON.parse(item) : defaultValue; }
+                catch (error) { console.error('Storage Error:', error); return defaultValue; }
+            }
+
+            function removeFromStorage(key) {
+                try { localStorage.removeItem(key); return true; }
+                catch (error) { return false; }
+            }
+
+            function showNotification(message, type = 'info', duration = 3000) {
+                log(`Notification: ${message} (${type})`);
+            }
+
+            function speak(text, options = {}) {
+                if (!('speechSynthesis' in window)) return;
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = options.lang || 'ar-SA';
+                if (options.onend) utterance.onend = options.onend;
+                window.speechSynthesis.speak(utterance);
+            }
+
+            function stopSpeaking() {
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+
+            // Simplified startVoiceRecognition for debug
+            function startVoiceRecognition(callback) {
+                log('Voice Recognition Mock initialized. (Browser support check passed if you see this)');
+            }
+
+            function simplifyText(text) { return text; } // Mock
+
+            async function callBackend(endpoint, method = 'GET', data = null) {
+                if (typeof CONFIG === 'undefined' || !CONFIG.USE_BACKEND) return null;
+                const url = `${CONFIG.BACKEND_URL}${endpoint}`;
+                try {
+                    const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: data ? JSON.stringify(data) : null });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error('Backend connection failed:', error);
+                    return null;
+                }
+            }
+
+            // Expose to window
+            window.saveToStorage = saveToStorage;
+            window.getFromStorage = getFromStorage;
+            window.speak = speak;
+            window.callBackend = callBackend;
+
+            log('Ref: Utilities Loaded (Inline).');
+        } catch (e) {
+            log('Critical Error in Utils Block: ' + e.message, 'error');
+        }
+    </script>
+
+    <!-- INLINE ACCESSIBILITY.JS (Simplified) -->
+    <script>
+        try {
+            log('Initializing Accessibility Manager...');
+
+            class AccessibilityManager {
+                constructor() {
+                    this.init();
+                }
+                init() {
+                    try {
+                        this.loadPreferences();
+                        log('Accessibility Manager Initialized Successfully.');
+                    } catch (e) {
+                        log('Accessibility Init Failed: ' + e.message, 'error');
+                    }
+                }
+                loadPreferences() {
+                    // Dependency on CONFIG and getFromStorage
+                    if (typeof CONFIG === 'undefined') throw new Error('CONFIG undefined in Accessibility');
+                    if (typeof getFromStorage === 'undefined') throw new Error('getFromStorage undefined in Accessibility');
+
+                    this.currentDisabilityType = getFromStorage(CONFIG.STORAGE_KEYS.DISABILITY_TYPE);
+                    log('Current Disability Type from Storage: ' + (this.currentDisabilityType || 'None'));
+                }
+            }
+
+            window.accessibilityManager = new AccessibilityManager();
+
+        } catch (e) {
+            log('Critical Error in Accessibility Block: ' + e.message, 'error');
+        }
+    </script>
+
+    <script>
+        function runDiagnostics() {
+            log('Starting Diagnostics...');
+
+            // 1. Basic JS Environment
+            log('Browser: ' + navigator.userAgent);
+
+            // 2. Storage Check
+            if (localStorage) log('LocalStorage is available.');
+            else log('LocalStorage is NOT available', 'error');
+
+            // 3. Backend Connectivity
+            if (typeof callBackend === 'function') {
+                log('Attempting to contact Backend at http://localhost:5000...');
+                callBackend('/').then(res => {
+                    if (res) log('Backend Success: Server is reachable!');
+                    else log('Backend Failure: Server unreachable (Check if python app.py is running)', 'error');
+                });
+            } else {
+                log('callBackend is missing!', 'error');
+            }
+
+            // 4. File Protocol Check
+            if (window.location.protocol === 'file:') {
+                log('Running from local file system (file://). Some features might be restricted by browser security.', 'error');
+            } else {
+                log('Running from: ' + window.location.protocol);
+            }
+        }
+
+        // Auto-run
+        setTimeout(runDiagnostics, 500);
+    </script>
+</body>
+
+</html>

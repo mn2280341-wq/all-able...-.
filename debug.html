@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AllAble Debugger</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        .status-box {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .success {
+            border-left: 5px solid green;
+        }
+
+        .error {
+            border-left: 5px solid red;
+            background: #ffebee;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+    <script src="config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+</head>
+
+<body>
+    <h1>تشخيص المشاكل (Debug Mode)</h1>
+    <p>سنقوم بفحص النظام الآن...</p>
+    <div id="results"></div>
+    <button class="btn" onclick="runTests()">إعادة الفحص</button>
+    <button class="btn" style="background: 333;" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+
+    <script>
+        function log(msg, type = 'info') {
+            const el = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `status-box ${type === 'error' ? 'error' : 'success'}`;
+            div.innerHTML = `<strong>${type.toUpperCase()}:</strong> ${msg}`;
+            el.appendChild(div);
+        }
+
+        function runTests() {
+            document.getElementById('results').innerHTML = '';
+
+            // 1. Config Check
+            try {
+                if (typeof CONFIG !== 'undefined') log('Config.js loaded successfully. API Key: ' + (CONFIG.GEMINI_API_KEY ? 'Present' : 'Missing'));
+                else log('Config.js FAILED to load', 'error');
+            } catch (e) { log('Config.js crash: ' + e.message, 'error'); }
+
+            // 2. Utils Check
+            try {
+                if (typeof saveToStorage === 'function') log('Utils.js loaded successfully. Storage available.');
+                else log('Utils.js FAILED (functions missing)', 'error');
+            } catch (e) { log('Utils.js crash: ' + e.message, 'error'); }
+
+            // 3. Accessibility Check
+            try {
+                if (typeof accessibilityManager !== 'undefined') log('Accessibility Manager ready.');
+                else log('Accessibility.js FAILED to init', 'error');
+            } catch (e) { log('Accessibility crash: ' + e.message, 'error'); }
+
+            // 4. Browser Capabilities
+            if ('speechSynthesis' in window) log('Text-to-Speech supported.');
+            else log('Text-to-Speech NOT supported', 'error');
+
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) log('Speech Recognition supported.');
+            else log('Speech Recognition NOT supported', 'error');
+
+            // 5. Backend Check
+            if (typeof callBackend === 'function') {
+                log('Testing Backend...');
+                callBackend('').then(res => {
+                    if (res) log('Backend Connected: ' + JSON.stringify(res));
+                    else log('Backend Connection Failed (Server might be down)', 'error');
+                });
+            } else {
+                log('callBackend function missing in utils.js', 'error');
+            }
+        }
+
+        runTests();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAble - بدون اتصال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .offline-container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .features h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .features ul {
+            list-style: none;
+            text-align: right;
+        }
+
+        .features li {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .features li::before {
+            content: "✓ ";
+            color: #4ade80;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .retry-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tajawal', Arial, sans-serif;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .emergency-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            font-family: 'Tajawal', Arial, sans-serif;
+        }
+
+        .emergency-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        <h1>لا يوجد اتصال بالإنترنت</h1>
+        <p>لا تقلق! بعض الميزات الأساسية متاحة بدون إنترنت</p>
+
+        <div class="features">
+            <h2>الميزات المتاحة بدون نت:</h2>
+            <ul>
+                <li>الكلمات الأساسية (طوارئ، مساعدة، ماء، طعام...)</li>
+                <li>الإشارات الشائعة (مرحبا، شكرا، نعم، لا...)</li>
+                <li>نظام الطوارئ المحلي</li>
+                <li>الصفحات المحفوظة مسبقاً</li>
+            </ul>
+        </div>
+
+        <button class="retry-btn" onclick="location.reload()">
+            إعادة المحاولة
+        </button>
+
+        <button class="emergency-btn" onclick="goToEmergency()">
+            🚨 طوارئ
+        </button>
+    </div>
+
+    <script>
+        function goToEmergency() {
+            window.location.href = '/emergency.html';
+        }
+
+        // التحقق من الاتصال تلقائياً
+        window.addEventListener('online', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>

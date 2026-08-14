@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Able - لوحة التحكم</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <!-- الشريط العلوي -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-universal-access"></i>
+                <span>All-Able</span>
+            </div>
+
+            <nav class="main-nav">
+                <button class="nav-btn active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </button>
+                <button class="nav-btn" data-page="search">
+                    <i class="fas fa-search"></i>
+                    <span>بحث</span>
+                </button>
+                <button class="nav-btn" data-page="social">
+                    <i class="fas fa-share-alt"></i>
+                    <span>تواصل</span>
+                </button>
+                <button class="nav-btn" data-page="aac">
+                    <i class="fas fa-comments"></i>
+                    <span>تواصل بديل</span>
+                </button>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="voice-btn" aria-label="التحكم الصوتي">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="icon-btn" id="settings-btn" aria-label="الإعدادات">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="dashboard-main">
+        <!-- صفحة الرئيسية -->
+        <section class="page active" id="home-page">
+            <div class="welcome-section">
+                <h1>مرحباً بك في All-Able</h1>
+                <p>تطبيقك الذكي الشامل</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- بطاقة البحث الذكي -->
+                <div class="feature-card" data-feature="search" onclick="window.dashboard.openFeature('search')">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>بحث ذكي</h3>
+                    <p>ابحث عن أي شيء واحصل على شرح مخصص لك</p>
+                    <button class="btn btn-primary">ابدأ البحث</button>
+                </div>
+
+                <!-- بطاقة السوشيال ميديا -->
+                <div class="feature-card" data-feature="social" onclick="window.dashboard.openFeature('social')">
+                    <div class="feature-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>سوشيال ميديا</h3>
+                    <p>تصفح المحتوى مترجم تلقائياً لك</p>
+                    <button class="btn btn-primary">تصفح الآن</button>
+                </div>
+
+                <!-- بطاقة التواصل البديل -->
+                <div class="feature-card" data-feature="aac" onclick="window.dashboard.openFeature('aac')">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>تواصل بدون كتابة</h3>
+                    <p>عبّر عن نفسك بالرموز والصور</p>
+                    <button class="btn btn-primary">ابدأ التواصل</button>
+                </div>
+
+                <!-- بطاقة لغة الإشارة -->
+                <div class="feature-card" data-feature="sign" onclick="window.dashboard.openFeature('sign')">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3>لغة الإشارة</h3>
+                    <p>تحويل النص إلى لغة إشارة</p>
+                    <button class="btn btn-primary">جرب الآن</button>
+                </div>
+
+                <!-- بطاقة الكاميرا الذكية -->
+                <div class="feature-card" data-feature="camera" onclick="window.dashboard.openFeature('camera')">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>كاميرا ذكية</h3>
+                    <p>صوّر واقرأ أي نص أو شيء</p>
+                    <button class="btn btn-primary">افتح الكاميرا</button>
+                </div>
+
+                <!-- بطاقة التعليم -->
+                <div class="feature-card" data-feature="learn" onclick="window.dashboard.openFeature('learn')">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>تعليم وتأهيل</h3>
+                    <p>تعلم مهارات جديدة</p>
+                    <button class="btn btn-primary">ابدأ التعلم</button>
+                </div>
+
+                <!-- بطاقة تمارين الاسترخاء -->
+                <div class="feature-card" data-feature="relaxation"
+                    onclick="window.dashboard.openFeature('relaxation')">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>تمارين الاسترخاء</h3>
+                    <p>تمارين تنفس وتهدئة للتخلص من التوتر</p>
+                    <button class="btn btn-primary">ابدأ الاسترخاء</button>
+                </div>
+
+                <!-- بطاقة وضع المرافق -->
+                <div class="feature-card" data-feature="companion" onclick="window.dashboard.openFeature('companion')">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>وضع المرافق</h3>
+                    <p>للمرافقين: تحكم ومراقبة عن بُعد</p>
+                    <button class="btn btn-primary">دخول المرافق</button>
+                </div>
+
+                <!-- بطاقة الإعدادات -->
+                <div class="feature-card" data-feature="settings" onclick="window.dashboard.openFeature('settings')">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>الإعدادات</h3>
+                    <p>تخصيص التطبيق حسب احتياجاتك</p>
+                    <button class="btn btn-primary">فتح الإعدادات</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحة البحث -->
+        <section class="page" id="search-page">
+            <div class="search-container">
+                <h2>البحث الذكي</h2>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="ابحث عن أي شيء...">
+                    <button class="search-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="voice-search-btn" id="voice-search-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </section>
+
+        <!-- صفحة السوشيال ميديا -->
+        <section class="page" id="social-page">
+            <h2>سوشيال ميديا</h2>
+            <p>قريباً...</p>
+        </section>
+
+        <!-- صفحة التواصل البديل -->
+        <section class="page" id="aac-page">
+            <h2>التواصل البديل</h2>
+            <p>قريباً...</p>
+        </section>
+    </main>
+
+    <!-- زر الطوارئ -->
+    <button class="emergency-fab" id="emergency-btn" aria-label="طوارئ">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/ai-emotions.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/emergency.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <style>
+        .dashboard-header {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-xl);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .main-nav {
+            display: flex;
+            gap: var(--spacing-md);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .icon-btn {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .icon-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .dashboard-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .welcome-section h1 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            font-size: var(--font-size-3xl);
+            color: white;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        #search-input {
+            flex: 1;
+            padding: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            background: var(--bg-secondary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+        }
+
+        .search-btn,
+        .voice-search-btn {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .search-btn:hover,
+        .voice-search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+
+</html>

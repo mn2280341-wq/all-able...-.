@@ -1,0 +1,11 @@
+flask
+flask-cors
+SpeechRecognition
+mediapipe
+opencv-python
+pydub
+pyttsx3
+gTTS
+numpy
+google-generativeai
+python-dotenv

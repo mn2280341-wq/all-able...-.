@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAble - البحث الذكي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="config.js"></script>
+
+    <style>
+        .search-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .search-box-container {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: var(--spacing-md);
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        #search-input {
+            flex: 1;
+            padding: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            background: var(--bg-primary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-btn,
+        .voice-search-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .search-btn:hover,
+        .voice-search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: var(--spacing-3xl);
+        }
+
+        .welcome-message i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .search-examples {
+            margin-top: var(--spacing-2xl);
+        }
+
+        .example-chips {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-md);
+        }
+
+        .example-chip {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--radius-full);
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .example-chip:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .search-result-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        .result-header h3 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .icon-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .result-content {
+            font-size: var(--font-size-lg);
+            line-height: 1.8;
+            color: var(--text-primary);
+            white-space: pre-line;
+        }
+
+        .result-extra {
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 2px solid var(--bg-tertiary);
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: var(--spacing-3xl);
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto var(--spacing-lg);
+            border: 4px solid var(--bg-tertiary);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* شريط التبديل بين الإعاقات */
+        .disability-switcher-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+            padding: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .switcher-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            color: var(--text-secondary);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            transition: all var(--transition-base);
+        }
+
+        .switcher-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .switcher-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-glow);
+            border-color: transparent;
+        }
+
+        /* المربع الأبيض الأوسط */
+        .search-results {
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid #e2e8f0;
+            min-height: 480px;
+            transition: all var(--transition-base);
+            position: relative;
+        }
+
+        /* تنسيق واجهة لغة الإشارة */
+        .sign-language-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            width: 100%;
+        }
+
+        /* إطار الأفاتار */
+        .avatar-box-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            width: 100%;
+            max-width: 500px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* الأفاتار المطور ثلاثي الأبعاد */
+        .avatar-3d-box {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+            margin-bottom: var(--spacing-md);
+            border: 4px solid #818cf8;
+            overflow: visible;
+        }
+
+        .avatar-robot {
+            position: absolute;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-robot.animating {
+            animation: robotSignGesture 0.8s ease-in-out;
+        }
+
+        .avatar-robot.animating .robot-eyes .eye {
+            background: #ff007f !important;
+            box-shadow: 0 0 12px #ff007f, 0 0 4px #ff007f;
+            transform: scaleY(0.2);
+        }
+
+        .avatar-robot.animating .robot-head {
+            border-color: #ff007f !important;
+            transform: scale(1.08) rotate(4deg);
+        }
+
+        .avatar-robot.animating .robot-mouth {
+            height: 12px !important;
+            background: #ff007f !important;
+            border-radius: 50% !important;
+            width: 14px !important;
+            transition: all 0.2s;
+        }
+
+        @keyframes robotSignGesture {
+            0% { transform: translateY(0) scale(1) rotate(0deg); }
+            30% { transform: translateY(-12px) scale(1.05) rotate(-6deg); }
+            60% { transform: translateY(-4px) scale(1.02) rotate(6deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
+        }
+
+        .robot-head {
+            width: 80px;
+            height: 60px;
+            background: #818cf8;
+            border-radius: 20px;
+            border: 3px solid #4f46e5;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: robotFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes robotFloat {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+
+        .robot-eyes {
+            display: flex;
+            gap: 12px;
+        }
+
+        .eye {
+            width: 10px;
+            height: 10px;
+            background: #00E5FF;
+            border-radius: 50%;
+            animation: eyeBlink 4s infinite;
+        }
+
+        @keyframes eyeBlink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        .robot-mouth {
+            width: 24px;
+            height: 4px;
+            background: #4f46e5;
+            border-radius: 2px;
+            margin-top: 8px;
+        }
+
+        .gesture-display {
+            font-size: 5.5rem;
+            position: absolute;
+            bottom: -15px;
+            background: #ffffff;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid #818cf8;
+            animation: gestureBounce 0.5s ease-out;
+            z-index: 10;
+        }
+
+        @keyframes gestureBounce {
+            0% { transform: scale(0.3); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .avatar-word-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* شريط الحروف الإشارية */
+        .alphabet-slider-container {
+            width: 100%;
+            margin-top: var(--spacing-sm);
+        }
+
+        .alphabet-slider-container h4 {
+            color: #475569;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+        }
+
+        .alphabet-slider {
+            display: flex;
+            gap: var(--spacing-sm);
+            overflow-x: auto;
+            padding: var(--spacing-md) var(--spacing-sm);
+            width: 100%;
+            background: #f1f5f9;
+            border-radius: var(--radius-md);
+            border: 1px solid #e2e8f0;
+            scrollbar-width: thin;
+            direction: rtl;
+        }
+
+        .alphabet-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .alphabet-slider::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .letter-btn {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: var(--radius-md);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .letter-btn:hover {
+            border-color: #818cf8;
+            background: #eef2ff;
+            color: #4f46e5;
+            transform: scale(1.05);
+        }
+
+        .letter-btn.active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
+
+        /* مؤشر السرعة */
+        .speed-control-slider {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-sm);
+        }
+
+        .speed-control-slider label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #475569;
+            font-size: var(--font-size-sm);
+        }
+
+        .speed-control-slider input[type="range"] {
+            width: 100%;
+            accent-color: #4f46e5;
+            height: 6px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        /* واجهة الإعاقة البصرية */
+        .visual-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            text-align: center;
+            width: 100%;
+        }
+
+        .visual-play-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00E5FF 0%, #2979FF 100%);
+            border: none;
+            color: white;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(41, 121, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .visual-play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(41, 121, 255, 0.6);
+        }
+
+        .visual-text-large {
+            font-size: 1.8rem !important;
+            font-weight: 800;
+            line-height: 1.8;
+            color: #0f172a;
+            max-width: 700px;
+        }
+
+        /* واجهة الإعاقة الحركية */
+        .motor-interface {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            width: 100%;
+        }
+
+        .motor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 600px) {
+            .motor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .motor-large-btn {
+            padding: var(--spacing-xl);
+            background: #f8fafc;
+            border: 3px solid #cbd5e1;
+            border-radius: var(--radius-lg);
+            color: #1e293b;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            transition: all 0.2s ease;
+            min-height: 100px;
+        }
+
+        .motor-large-btn:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        /* واجهة الإعاقة الذهنية والتوحد */
+        .cognitive-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            text-align: center;
+            width: 100%;
+        }
+
+        .cognitive-card {
+            background: #ecfdf5;
+            border: 3px solid #10b981;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .cognitive-symbols {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cognitive-symbol-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .cognitive-symbol-item i {
+            font-size: 3.5rem;
+            color: #059669;
+        }
+
+        .cognitive-symbol-item span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #065f46;
+        }
+
+        /* واجهة صعوبات التعلم */
+        .learning-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            width: 100%;
+        }
+
+        .learning-card {
+            background: #fffbeb;
+            border: 3px solid #f59e0b;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            width: 100%;
+            max-width: 650px;
+            color: #78350f;
+        }
+
+        .learning-step-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            background: #ffffff;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid #fde68a;
+            margin-top: var(--spacing-md);
+            text-align: right;
+            color: #1e293b;
+        }
+
+        .learning-step-num {
+            background: #f59e0b;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body class="search-page">
+    <!-- الهيدر -->
+    <header class="page-header">
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        <h1>
+            <i class="fas fa-search"></i>
+            البحث الذكي <span style="font-size: 0.9rem; background: var(--gradient-primary); color: white; padding: 2px 8px; border-radius: var(--radius-full); vertical-align: middle; margin-right: var(--spacing-sm);"><i class="fas fa-magic"></i> ذكي</span>
+        </h1>
+    </header>
+
+    <main class="search-container">
+        <!-- مربع البحث المطور -->
+        <div class="search-box-container">
+            <div class="search-input-wrapper" style="border: 2px solid var(--primary-color); box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);">
+                <input type="text" id="search-input" placeholder="ابحث عن كلمة لشرحها بلغة الإشارة..." autofocus>
+                <button class="voice-search-btn" id="voice-search-btn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="search-suggestions" id="search-suggestions"></div>
+        </div>
+
+        <!-- أزرار الإعاقات للتنقل السريع بين طرق الشرح والتفاعل -->
+        <div class="disability-switcher-container">
+            <button class="switcher-btn active" data-type="hearing" onclick="switchDisabilityMode('hearing')">
+                <i class="fas fa-deaf"></i>
+                <span>إعاقة سمعية</span>
+            </button>
+            <button class="switcher-btn" data-type="visual" onclick="switchDisabilityMode('visual')">
+                <i class="fas fa-eye-slash"></i>
+                <span>إعاقة بصرية</span>
+            </button>
+            <button class="switcher-btn" data-type="motor" onclick="switchDisabilityMode('motor')">
+                <i class="fas fa-wheelchair"></i>
+                <span>إعاقة حركية</span>
+            </button>
+            <button class="switcher-btn" data-type="cognitive" onclick="switchDisabilityMode('cognitive')">
+                <i class="fas fa-puzzle-piece"></i>
+                <span>ذهنية / توحد</span>
+            </button>
+            <button class="switcher-btn" data-type="learning" onclick="switchDisabilityMode('learning')">
+                <i class="fas fa-book-reader"></i>
+                <span>صعوبات تعلم</span>
+            </button>
+        </div>
+
+        <!-- النتائج -->
+        <div class="search-results" id="search-results">
+            <!-- سيتم توليد المحتوى ديناميكياً هنا بناءً على الإعاقة المختارة -->
+        </div>
+
+        <!-- طرق العرض -->
+        <div class="display-options hidden" id="display-options">
+            <h3>اختر طريقة العرض:</h3>
+            <div class="option-buttons">
+                <button class="option-btn" onclick="displayAs('text')">
+                    <i class="fas fa-align-left"></i>
+                    نص مبسط
+                </button>
+                <button class="option-btn" onclick="displayAs('audio')">
+                    <i class="fas fa-volume-up"></i>
+                    صوت
+                </button>
+                <button class="option-btn" onclick="displayAs('sign')">
+                    <i class="fas fa-hands-asl-interpreting"></i>
+                    لغة إشارة
+                </button>
+                <button class="option-btn" onclick="displayAs('images')">
+                    <i class="fas fa-images"></i>
+                    صور
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- زر الطوارئ -->
+    <button class="emergency-fab" id="emergency-btn" aria-label="طوارئ">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/ai-emotions.js"></script>
+    <script src="js/search.js"></script>
+
+    <script>
+        // معالجة زر الطوارئ
+        document.getElementById('emergency-btn').addEventListener('click', () => {
+            window.location.href = 'emergency.html';
+        });
+
+        // دالة البحث السريع
+        function searchFor(query) {
+            document.getElementById('search-input').value = query;
+            document.getElementById('search-btn').click();
+        }
+
+        // ========================================
+        // نظام البحث والترجمة التفاعلي متعدد الإعاقات
+        // ========================================
+
+        // بيانات الحروف الإشارية العربية
+        const arabicAlphabet = ['أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'];
+
+        const alphabetGestures = {
+            'أ': '☝️', 'ب': '🖐️', 'ت': '✌️', 'ث': '🤞', 'ج': '✊', 'ح': '✋', 'خ': '✍️',
+            'د': '👇', 'ذ': '👈', 'ر': '👉', 'ز': '👆', 'س': '🤚', 'ش': '👋', 'ص': '🤝',
+            'ض': '🤛', 'ط': '🤜', 'ظ': '🤙', 'ع': '🖖', 'غ': '🤟', 'ف': '🫵', 'ق': '🤏',
+            'ك': '👏', 'ل': '🙌', 'م': '✊', 'ن': '👊', 'هـ': '👐', 'و': '🤌', 'ي': '✌️'
+        };
+
+        const alphabetNames = {
+            'أ': 'الألف', 'ب': 'الباء', 'ت': 'التاء', 'ث': 'الثاء', 'ج': 'الجيم', 'ح': 'الحاء', 'خ': 'الخاء',
+            'د': 'الدال', 'ذ': 'الذال', 'ر': 'الراء', 'ز': 'الزاي', 'س': 'السين', 'ش': 'الشين', 'ص': 'الصاد',
+            'ض': 'الضاد', 'ط': 'الطاء', 'ظ': 'الظاء', 'ع': 'العين', 'غ': 'الغين', 'ف': 'الفاء', 'ق': 'القاف',
+            'ك': 'الكاف', 'ل': 'اللام', 'م': 'الميم', 'ن': 'النون', 'هـ': 'الهاء', 'و': 'الواو', 'ي': 'الياء'
+        };
+
+        let currentDisabilityMode = 'hearing';
+        let avatarSpeed = 1.0;
+        let playTimeout = null;
+
+        // تهيئة عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            // التحقق من نوع الإعاقة المحفوظة في التطبيق
+            let savedDisability = 'hearing';
+            if (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) {
+                savedDisability = accessibilityManager.currentDisabilityType;
+            }
+            switchDisabilityMode(savedDisability);
+
+            // ربط دالة استلام النتائج من الـ smartSearch المطور
+            if (typeof smartSearch !== 'undefined') {
+                smartSearch.displayResults = function(query, result) {
+                    smartSearch.hideLoading();
+                    
+                    // إيقاف أي تشغيل تلقائي سابق
+                    if (playTimeout) {
+                        clearTimeout(playTimeout);
+                        playTimeout = null;
+                    }
+
+                    renderDisabilitySpecificResult(query, result);
+                };
+            }
+        });
+
+        // دالة التبديل بين أوضاع الإعاقات
+        function switchDisabilityMode(mode) {
+            currentDisabilityMode = mode;
+            
+            // تحديث حالة الأزرار النشطة
+            document.querySelectorAll('.switcher-btn').forEach(btn => {
+                if (btn.getAttribute('data-type') === mode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // إيقاف أي تشغيل تلقائي سابق
+            if (playTimeout) {
+                clearTimeout(playTimeout);
+                playTimeout = null;
+            }
+
+            // تطبيق الثيم العام حسب الإعاقة
+            if (typeof accessibilityManager !== 'undefined') {
+                accessibilityManager.setDisabilityType(mode);
+            }
+
+            // تحديث نص شريط البحث
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                if (mode === 'hearing') {
+                    searchInput.placeholder = "ابحث عن كلمة لشرحها بلغة الإشارة...";
+                } else if (mode === 'visual') {
+                    searchInput.placeholder = "اضغط للميكروفون أو ابحث صوتياً عن أي شيء...";
+                } else {
+                    searchInput.placeholder = "ابحث عن أي شيء...";
+                }
+            }
+
+            // عرض المحتوى الترحيبي المناسب إذا لم يكن هناك بحث نشط
+            const query = searchInput ? searchInput.value.trim() : '';
+            if (query) {
+                // إعادة البحث تلقائياً ليعرض النتائج بالثيم الجديد
+                if (typeof smartSearch !== 'undefined') {
+                    smartSearch.performSearch();
+                }
+            } else {
+                renderDisabilitySpecificWelcome();
+            }
+        }
+
+        // عرض المحتوى الترحيبي المناسب
+        function renderDisabilitySpecificWelcome() {
+            const resultsContainer = document.getElementById('search-results');
+            if (!resultsContainer) return;
+            
+            if (currentDisabilityMode === 'hearing') {
+                let html = `
+                    <div class="sign-language-interface">
+                        <div class="welcome-message" style="padding:15px; text-align:center;">
+                            <i class="fas fa-deaf" style="font-size:3rem; color:var(--primary-color); margin-bottom:10px;"></i>
+                            <h2 style="color:#1e293b; margin:0 0 10px 0;">مرحباً بك في لغة الإشارة الذكية</h2>
+                            <p style="color:#475569; margin:0 0 15px 0;">اختر أي حرف من شريط الحروف أدناه لعرض حركته الإشارية المقابلة فوراً على الأفاتار، أو اكتب كلمة بالأعلى لترجمتها بالكامل.</p>
+                        </div>
+                        
+                        <div class="avatar-box-container">
+                            <div class="avatar-3d-box">
+                                <div class="avatar-robot">
+                                    <div class="robot-head">
+                                        <div class="robot-eyes">
+                                            <div class="eye"></div>
+                                            <div class="eye"></div>
+                                        </div>
+                                        <div class="robot-mouth"></div>
+                                    </div>
+                                </div>
+                                <div class="gesture-display" id="avatar-gesture">🤟</div>
+                            </div>
+                            <div class="avatar-word-display" id="avatar-text">مرحباً بك! انقر على أي حرف أدناه لتجربته</div>
+                        </div>
+
+                        <div class="alphabet-slider-container">
+                            <h4>شريط الحروف الإشارية العربية:</h4>
+                            <div class="alphabet-slider" id="alphabet-slider">
+                                ${arabicAlphabet.map(l => `<button class="letter-btn" id="letter-${l}" onclick="playLetter('${l}')">${l}</button>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="speed-control-slider">
+                            <label for="avatar-speed-input">
+                                <span><i class="fas fa-running"></i> سرعة الإشارة:</span>
+                                <span id="avatar-speed-val">${avatarSpeed.toFixed(1)}x</span>
+                            </label>
+                            <input type="range" id="avatar-speed-input" min="0.5" max="2" step="0.1" value="${avatarSpeed}" oninput="updateAvatarSpeed(this.value)">
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'visual') {
+                let html = `
+                    <div class="visual-interface" style="padding:40px 20px;">
+                        <button class="visual-play-btn" onclick="speakWelcomeVisual()" aria-label="تشغيل قارئ الشاشة الترحيبي">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <h2 style="font-size:2.2rem; color:#2563eb; margin:20px 0 10px 0;">مرحباً بك في البحث الصوتي البصري</h2>
+                        <p style="font-size:1.4rem; color:#475569; max-width:600px; line-height:1.8; margin:0;">
+                            لقد تم تفعيل المساعد الصوتي. يمكنك الضغط على الميكروفون في الأعلى والبدء بالتحدث للبحث فوراً عن أي كلمة تريد شرحها بالصوت الواضح.
+                        </p>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+                speakWelcomeVisual();
+            } else if (currentDisabilityMode === 'motor') {
+                let html = `
+                    <div class="motor-interface" style="padding:20px;">
+                        <h2 style="font-size:2rem; color:#1d4ed8; text-align:center; margin-bottom:20px;">لوحة التحكم التفاعلية الكبيرة</h2>
+                        <div class="motor-grid">
+                            <button class="motor-large-btn" onclick="document.getElementById('voice-search-btn').click()">
+                                <i class="fas fa-microphone" style="font-size:3rem; color:#10b981;"></i>
+                                <span>البدء بالبحث الصوتي</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="window.location.href='emergency.html'">
+                                <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#ef4444;"></i>
+                                <span>طلب المساعدة الطارئة</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="speak('شاشة البحث الذكي سهلة التفاعل')">
+                                <i class="fas fa-volume-up" style="font-size:3rem; color:#3b82f6;"></i>
+                                <span>سماع شرح الصفحة صوتاً</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="window.location.href='dashboard.html'">
+                                <i class="fas fa-home" style="font-size:3rem; color:#4b5563;"></i>
+                                <span>العودة للرئيسية</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'cognitive') {
+                let html = `
+                    <div class="cognitive-interface" style="padding:20px;">
+                        <div class="cognitive-card">
+                            <div class="cognitive-symbols">
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-heart" style="color:#ec4899;"></i>
+                                    <span>ترحيب</span>
+                                </div>
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-puzzle-piece" style="color:#10b981;"></i>
+                                    <span>تكامل</span>
+                                </div>
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-smile" style="color:#f59e0b;"></i>
+                                    <span>راحة</span>
+                                </div>
+                            </div>
+                            <h2 style="font-size:2rem; color:#065f46; margin-bottom:15px;">أهلاً بك يا صديقي!</h2>
+                            <p style="font-size:1.3rem; line-height:1.8; color:#1e293b; margin:0; font-weight:500;">
+                                أنت هنا في أمان تام. التطبيق مصمم بألوان مريحة وعناصر مبسطة للغاية لتجنب أي تشتت. اكتب أي كلمة في شريط البحث بالأعلى لتجربتنا.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'learning') {
+                let html = `
+                    <div class="learning-interface" style="padding:20px;">
+                        <div class="learning-card">
+                            <h2 style="font-size:2rem; color:#92400e; margin-bottom:15px;">أهلاً بك في رحلة التعليم الميسرة!</h2>
+                            <p style="font-size:1.25rem; line-height:1.8; color:#78350f; font-weight:500; letter-spacing:1px; word-spacing:3px;">
+                                سنقوم بشرح الكلمات والمفاهيم بطريقة تفاعلية ومرحة خطوة بخطوة بالصور التوضيحية البسيطة. ابحث عن أي كلمة تريد تعلمها الآن!
+                            </p>
+                            <div class="learning-step-card" style="margin-top:20px;">
+                                <div class="learning-step-num"><i class="fas fa-search" style="font-size:1.1rem;"></i></div>
+                                <div>
+                                    <strong>ابحث عن أي شيء تريده بالصوت أو بالكتابة في الأعلى.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            }
+        }
+
+        // عرض نتائج البحث المخصصة حسب الإعاقة المختارة
+        function renderDisabilitySpecificResult(query, result) {
+            const resultsContainer = document.getElementById('search-results');
+            if (!resultsContainer) return;
+
+            if (currentDisabilityMode === 'hearing') {
+                let html = `
+                    <div class="sign-language-interface">
+                        <div style="display:flex; justify-content:space-between; width:100%; align-items:center; border-bottom:2px solid #e2e8f0; padding-bottom:10px; flex-wrap:wrap; gap:10px;">
+                            <h3 style="color:#4f46e5; margin:0; font-size:1.8rem;">ترجمة كلمة: "${query}"</h3>
+                            <button class="btn btn-primary" id="btn-autoplay-query" onclick="autoplayQuery('${query}')" style="background: var(--gradient-primary); color:white; font-size:1rem; font-weight:bold; border-radius:var(--radius-md); padding:10px 20px;">
+                                <i class="fas fa-play"></i> ابدأ الترجمة التلقائية للحروف
+                            </button>
+                        </div>
+                        
+                        <div class="avatar-box-container">
+                            <div class="avatar-3d-box">
+                                <div class="avatar-robot">
+                                    <div class="robot-head">
+                                        <div class="robot-eyes">
+                                            <div class="eye"></div>
+                                            <div class="eye"></div>
+                                        </div>
+                                        <div class="robot-mouth"></div>
+                                    </div>
+                                </div>
+                                <div class="gesture-display" id="avatar-gesture">🤟</div>
+                            </div>
+                            <div class="avatar-word-display" id="avatar-text">انقر على أي حرف أدناه أو ابدأ التشغيل التلقائي</div>
+                        </div>
+
+                        <div class="alphabet-slider-container">
+                            <h4>شريط الحروف الإشارية العربية:</h4>
+                            <div class="alphabet-slider" id="alphabet-slider">
+                                ${arabicAlphabet.map(l => `<button class="letter-btn" id="letter-${l}" onclick="playLetter('${l}')">${l}</button>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="speed-control-slider">
+                            <label for="avatar-speed-input">
+                                <span><i class="fas fa-running"></i> سرعة الإشارة:</span>
+                                <span id="avatar-speed-val">${avatarSpeed.toFixed(1)}x</span>
+                            </label>
+                            <input type="range" id="avatar-speed-input" min="0.5" max="2" step="0.1" value="${avatarSpeed}" oninput="updateAvatarSpeed(this.value)">
+                        </div>
+
+                        <div style="background:#f1f5f9; padding:15px; border-radius:8px; width:100%; border:1px solid #cbd5e1; margin-top:10px;">
+                            <h4 style="color:#1e293b; margin-top:0;"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> الشرح المفصل للكلمة:</h4>
+                            <p style="color:#334155; line-height:1.6; font-size:1.1rem; margin:0; text-align:right;">${result}</p>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'visual') {
+                let html = `
+                    <div class="visual-interface">
+                        <button class="visual-play-btn" onclick="speak('${result.replace(/'/g, "\\'")}')" aria-label="قراءة النتيجة بصوت عالي">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <h2 style="color:#2563eb; font-size:2.5rem; margin:0;">${query}</h2>
+                        <div class="visual-text-large">${result}</div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+                speak(result);
+            } else if (currentDisabilityMode === 'motor') {
+                let html = `
+                    <div class="motor-interface">
+                        <h3 style="font-size:2rem; color:#1e3a8a; border-bottom:3px solid #cbd5e1; padding-bottom:10px;">الترجمة والتحكم بالصوت لـ "${query}"</h3>
+                        <p style="font-size:1.4rem; line-height:1.8; color:#1e293b;">${result}</p>
+                        
+                        <div class="motor-grid">
+                            <button class="motor-large-btn" onclick="speak('${result.replace(/'/g, "\\'")}')">
+                                <i class="fas fa-volume-up" style="font-size:2.5rem; color:#3b82f6;"></i>
+                                <span>قراءة الترجمة بصوت</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="window.location.href='emergency.html'">
+                                <i class="fas fa-exclamation-triangle" style="font-size:2.5rem; color:#ef4444;"></i>
+                                <span>طلب مساعدة طوارئ</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="document.getElementById('voice-search-btn').click()">
+                                <i class="fas fa-microphone" style="font-size:2.5rem; color:#10b981;"></i>
+                                <span>البدء بالبحث الصوتي</span>
+                            </button>
+                            <button class="motor-large-btn" onclick="window.location.href='dashboard.html'">
+                                <i class="fas fa-home" style="font-size:2.5rem; color:#6b7280;"></i>
+                                <span>العودة للرئيسية</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'cognitive') {
+                let html = `
+                    <div class="cognitive-interface">
+                        <div class="cognitive-card">
+                            <div class="cognitive-symbols">
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>فكرة</span>
+                                </div>
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-smile" style="color:#059669;"></i>
+                                    <span>بسيط</span>
+                                </div>
+                                <div class="cognitive-symbol-item">
+                                    <i class="fas fa-check-circle" style="color:#2563eb;"></i>
+                                    <span>مفهوم</span>
+                                </div>
+                            </div>
+                            <h2 style="font-size:2.2rem; color:#065f46; margin-bottom:15px;">${query}</h2>
+                            <p style="font-size:1.4rem; line-height:1.8; color:#1e293b; margin:0; font-weight:500;">
+                                ${simplifyForCognitive(result)}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            } else if (currentDisabilityMode === 'learning') {
+                let html = `
+                    <div class="learning-interface">
+                        <div class="learning-card">
+                            <h2 style="font-size:2.2rem; color:#92400e; margin-bottom:15px;">شرح مبسط خطوة بخطوة: ${query}</h2>
+                            <p style="font-size:1.3rem; line-height:2; color:#78350f; font-weight:500; letter-spacing:1px; word-spacing:3px;">
+                                ${result}
+                            </p>
+                            
+                            <div class="learning-step-card">
+                                <div class="learning-step-num">1</div>
+                                <div>
+                                    <strong style="font-size:1.2rem;">الخطوة الأولى:</strong>
+                                    <p style="margin:5px 0 0 0; color:#92400e;">افهم الفكرة الأساسية للكلمة بصورة واضحة.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-step-card">
+                                <div class="learning-step-num">2</div>
+                                <div>
+                                    <strong style="font-size:1.2rem;">الخطوة الثانية:</strong>
+                                    <p style="margin:5px 0 0 0; color:#92400e;">اربط الفكرة ببيئتك اليومية أو الصور التي تحبها.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML = html;
+            }
+        }
+
+        // تشغيل حرف محدد على الأفاتار
+        function playLetter(letter, keepAutoplay) {
+            if (!keepAutoplay && playTimeout) {
+                clearTimeout(playTimeout);
+                playTimeout = null;
+            }
+            
+            // تحديد الحرف النشط في الشريط
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                if (btn.id === `letter-${letter}`) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            const gesture = alphabetGestures[letter] || '🤟';
+            const name = alphabetNames[letter] || letter;
+            
+            const gestureDisplay = document.getElementById('avatar-gesture');
+            if (gestureDisplay) {
+                gestureDisplay.textContent = gesture;
+                // إعادة تفعيل الأنيميشن
+                gestureDisplay.style.animation = 'none';
+                void gestureDisplay.offsetWidth; // Trigger reflow
+                gestureDisplay.style.animation = 'gestureBounce 0.5s ease-out';
+            }
+
+            // تفعيل حركة الأفاتار الروبوت التفاعلية
+            const robot = document.querySelector('.avatar-robot');
+            if (robot) {
+                robot.classList.remove('animating');
+                void robot.offsetWidth; // Trigger reflow
+                robot.classList.add('animating');
+                setTimeout(() => {
+                    robot.classList.remove('animating');
+                }, 800);
+            }
+            
+            const textDisplay = document.getElementById('avatar-text');
+            if (textDisplay) {
+                textDisplay.textContent = `حرف: ${name} (${gesture})`;
+            }
+            
+            // قراءة اسم الحرف صوتياً لتعزيز التعلم
+            if (typeof speak === 'function') {
+                speak(name);
+            }
+        }
+
+        // تشغيل كلمة حرفاً بحرف تلقائياً
+        function autoplayQuery(query) {
+            if (playTimeout) {
+                clearTimeout(playTimeout);
+                playTimeout = null;
+            }
+            
+            // تنظيف الكلمة من الحركات والهمزات والمسافات
+            const cleanText = query.replace(/[أإآ]/g, 'أ').replace('ة', 'ه').replace(/[ًٌٍَُِّْ]/g, '').replace(/[.,!؟\s]/g, '').trim();
+            if (!cleanText) {
+                if (typeof showNotification === 'function') {
+                    showNotification('الرجاء إدخال نص صالح للترجمة الإشارية', 'warning');
+                } else {
+                    alert('الرجاء إدخال نص صالح للترجمة الإشارية');
+                }
+                return;
+            }
+            
+            const letters = cleanText.split('');
+            let idx = 0;
+            
+            function playNext() {
+                if (idx >= letters.length) {
+                    document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+                    const gestureDisplay = document.getElementById('avatar-gesture');
+                    if (gestureDisplay) gestureDisplay.textContent = '✅';
+                    const textDisplay = document.getElementById('avatar-text');
+                    if (textDisplay) textDisplay.textContent = 'تمت ترجمة الكلمة بالكامل بنجاح!';
+                    return;
+                }
+                
+                const letter = letters[idx];
+                playLetter(letter, true);
+                
+                idx++;
+                const delay = 1200 / avatarSpeed;
+                playTimeout = setTimeout(playNext, delay);
+            }
+            
+            playNext();
+        }
+
+        // تحديث سرعة الأفاتار
+        function updateAvatarSpeed(val) {
+            avatarSpeed = parseFloat(val);
+            const speedVal = document.getElementById('avatar-speed-val');
+            if (speedVal) speedVal.textContent = `${avatarSpeed.toFixed(1)}x`;
+        }
+
+        // ترحيب صوتي للمكفوفين
+        function speakWelcomeVisual() {
+            if (typeof speak === 'function') {
+                speak('مرحباً بك في البحث الذكي للبصريين. الميكروفون نشط الآن. انقر في أي مكان في الشاشة للتحدث.');
+            }
+        }
+
+        // تبسيط النصوص للإعاقة الذهنية
+        function simplifyForCognitive(text) {
+            const sentences = text.split(/[.؟!]/);
+            if (sentences.length > 0 && sentences[0].trim().length > 10) {
+                return sentences[0].trim() + " ونحن دائماً هنا لمساعدتك على الفهم والتعلم بكل سهولة ويسر وبدون أي تعقيد.";
+            }
+            return text;
+        }
+    </script>
+</body>
+
+</html>

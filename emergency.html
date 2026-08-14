@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAble - طوارئ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <script src="config.js"></script>
+</head>
+
+<body class="emergency-page">
+    <main class="emergency-container">
+        <div class="emergency-header">
+            <div class="emergency-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h1>نظام الطوارئ</h1>
+            <p>نحن هنا لمساعدتك</p>
+        </div>
+
+        <div class="emergency-actions">
+            <button class="emergency-btn-large activate" id="activate-emergency">
+                <i class="fas fa-bell"></i>
+                <span>تفعيل الطوارئ</span>
+                <small>إرسال موقعك وطلب المساعدة</small>
+            </button>
+
+            <button class="emergency-btn-large call" id="call-emergency">
+                <i class="fas fa-phone"></i>
+                <span>اتصال سريع</span>
+                <small>الاتصال بجهة الاتصال الأولى</small>
+            </button>
+
+            <button class="emergency-btn-large location" id="share-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>مشاركة الموقع</span>
+                <small>إرسال موقعك الحالي فقط</small>
+            </button>
+        </div>
+
+        <div class="emergency-contacts" id="emergency-contacts">
+            <h2>جهات الاتصال للطوارئ</h2>
+            <div id="contacts-list" class="contacts-list">
+                <p class="no-contacts">لا توجد جهات اتصال. اضغط على "إضافة جهة اتصال" لإضافة واحدة.</p>
+            </div>
+            <button class="btn btn-primary" id="add-contact-btn">
+                <i class="fas fa-plus"></i>
+                إضافة جهة اتصال
+            </button>
+        </div>
+
+        <div class="emergency-info">
+            <div class="info-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>آمن ومشفر</h3>
+                <p>جميع بياناتك محمية ومشفرة</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <h3>استجابة سريعة</h3>
+                <p>إرسال فوري لموقعك ومعلوماتك</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-user-shield"></i>
+                <h3>خصوصية تامة</h3>
+                <p>لا نشارك معلوماتك مع أي جهة</p>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">
+            <i class="fas fa-arrow-right"></i>
+            العودة للوحة التحكم
+        </button>
+    </main>
+
+    <!-- Modal إضافة جهة اتصال -->
+    <div class="modal-overlay" id="add-contact-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">إضافة جهة اتصال</h3>
+                <button class="modal-close" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label">الاسم</label>
+                    <input type="text" class="input-field" id="contact-name" placeholder="مثال: أحمد">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">رقم الهاتف</label>
+                    <input type="tel" class="input-field" id="contact-phone" placeholder="مثال: 0501234567">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">العلاقة</label>
+                    <select class="input-field" id="contact-relation">
+                        <option value="أب">أب</option>
+                        <option value="أم">أم</option>
+                        <option value="أخ">أخ</option>
+                        <option value="أخت">أخت</option>
+                        <option value="صديق">صديق</option>
+                        <option value="مرافق">مرافق</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-large" id="save-contact">
+                    <i class="fas fa-save"></i>
+                    حفظ جهة الاتصال
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/emergency.js"></script>
+
+    <script>
+        // منطق صفحة الطوارئ
+        document.addEventListener('DOMContentLoaded', () => {
+            // عرض جهات الاتصال
+            displayContacts();
+
+            // تفعيل الطوارئ
+            document.getElementById('activate-emergency').addEventListener('click', async () => {
+                if (confirm('هل أنت متأكد من تفعيل نظام الطوارئ؟ سيتم إرسال موقعك لجميع جهات الاتصال.')) {
+                    await emergencySystem.activateEmergency();
+                }
+            });
+
+            // مشاركة الموقع
+            document.getElementById('share-location').addEventListener('click', async () => {
+                showNotification('جاري تحديد موقعك...', 'info');
+                try {
+                    await emergencySystem.getCurrentLocation();
+                    if (emergencySystem.currentLocation) {
+                        const link = createGoogleMapsLink(
+                            emergencySystem.currentLocation.latitude,
+                            emergencySystem.currentLocation.longitude
+                        );
+                        copyToClipboard(link);
+                        showNotification('تم نسخ رابط موقعك', 'success');
+                    }
+                } catch (error) {
+                    showNotification('فشل تحديد الموقع', 'error');
+                }
+            });
+
+            // فتح modal إضافة جهة اتصال
+            document.getElementById('add-contact-btn').addEventListener('click', () => {
+                document.getElementById('add-contact-modal').classList.add('active');
+            });
+
+            // إغلاق modal
+            document.getElementById('close-modal').addEventListener('click', () => {
+                document.getElementById('add-contact-modal').classList.remove('active');
+            });
+
+            // حفظ جهة اتصال
+            document.getElementById('save-contact').addEventListener('click', () => {
+                const name = document.getElementById('contact-name').value.trim();
+                const phone = document.getElementById('contact-phone').value.trim();
+                const relation = document.getElementById('contact-relation').value;
+
+                if (!name || !phone) {
+                    showNotification('الرجاء إدخال الاسم ورقم الهاتف', 'warning');
+                    return;
+                }
+
+                if (!isValidPhone(phone)) {
+                    showNotification('رقم الهاتف غير صحيح', 'error');
+                    return;
+                }
+
+                emergencySystem.addEmergencyContact({ name, phone, relation });
+
+                // إعادة تعيين النموذج
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-phone').value = '';
+
+                // إغلاق modal
+                document.getElementById('add-contact-modal').classList.remove('active');
+
+                // تحديث القائمة
+                displayContacts();
+            });
+        });
+
+        function displayContacts() {
+            const contactsList = document.getElementById('contacts-list');
+            const contacts = emergencySystem.emergencyContacts;
+
+            if (contacts.length === 0) {
+                contactsList.innerHTML = '<p class="no-contacts">لا توجد جهات اتصال. اضغط على "إضافة جهة اتصال" لإضافة واحدة.</p>';
+                return;
+            }
+
+            contactsList.innerHTML = contacts.map(contact => `
+                <div class="contact-card">
+                    <div class="contact-info">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>${contact.name}</h4>
+                            <p>${contact.phone}</p>
+                            <span class="badge badge-primary">${contact.relation}</span>
+                        </div>
+                    </div>
+                    <button class="icon-btn" onclick="emergencySystem.removeEmergencyContact(${contact.id}); displayContacts();">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+    </script>
+
+    <style>
+        .emergency-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .emergency-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .emergency-header {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+            color: white;
+        }
+
+        .emergency-icon {
+            font-size: 5rem;
+            margin-bottom: var(--spacing-lg);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .emergency-actions {
+            display: grid;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .emergency-btn-large {
+            background: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .emergency-btn-large:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .emergency-btn-large i {
+            font-size: 3rem;
+        }
+
+        .emergency-btn-large span {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+        }
+
+        .emergency-btn-large small {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .emergency-btn-large.activate {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+        }
+
+        .emergency-btn-large.call {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .emergency-btn-large.location {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+        }
+
+        .emergency-contacts {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .contacts-list {
+            margin: var(--spacing-xl) 0;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .contact-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--font-size-2xl);
+        }
+
+        .emergency-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: white;
+        }
+
+        .info-card i {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .back-btn {
+            width: 100%;
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .no-contacts {
+            text-align: center;
+            color: var(--text-muted);
+            padding: var(--spacing-2xl);
+        }
+    </style>
+</body>
+
+</html>

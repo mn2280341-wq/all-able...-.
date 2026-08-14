@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Able - سوشيال ميديا</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/social-media.css">
+
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <!-- الشريط العلوي -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-universal-access"></i>
+                <span>All-Able</span>
+            </div>
+
+            <h2>سوشيال ميديا مترجمة</h2>
+
+            <button class="back-btn-header" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-right"></i>
+                رجوع
+            </button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="social-main">
+        <!-- اختيار المنصة -->
+        <div class="platform-selector">
+            <button class="platform-btn active" data-platform="all">
+                <i class="fas fa-globe"></i>
+                <span>الكل</span>
+            </button>
+            <button class="platform-btn" data-platform="youtube">
+                <i class="fab fa-youtube"></i>
+                <span>يوتيوب</span>
+            </button>
+            <button class="platform-btn" data-platform="facebook">
+                <i class="fab fa-facebook"></i>
+                <span>فيسبوك</span>
+            </button>
+            <button class="platform-btn" data-platform="instagram">
+                <i class="fab fa-instagram"></i>
+                <span>إنستجرام</span>
+            </button>
+            <button class="platform-btn" data-platform="twitter">
+                <i class="fab fa-twitter"></i>
+                <span>تويتر</span>
+            </button>
+        </div>
+
+        <!-- الفيد -->
+        <div class="social-feed" id="social-feed">
+            <!-- سيتم ملؤها بالمحتوى -->
+        </div>
+    </main>
+
+    <!-- زر الطوارئ -->
+    <button class="emergency-fab" onclick="window.location.href='emergency.html'">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <!-- Scripts -->
+    <!-- Scripts -->
+    <!-- Custom Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/content-middleware.js"></script>
+    <script src="js/ai-emotions.js"></script>
+    <script src="js/social-media.js"></script>
+
+    <!-- Official Social Media SDKs (Lazy Loaded or Async) -->
+    <!-- Twitter/X -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
+        nonce="AllAble"></script>
+
+    <!-- TikTok Embed Script -->
+    <script async src="https://www.tiktok.com/embed.js"></script>
+</body>
+
+</html>

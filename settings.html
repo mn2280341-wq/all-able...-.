@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAble - الإعدادات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="config.js"></script>
+</head>
+
+<body class="settings-page">
+    <header class="page-header">
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        <h1>
+            <i class="fas fa-cog"></i>
+            الإعدادات
+        </h1>
+    </header>
+
+    <main class="settings-container">
+        <!-- الملف الشخصي -->
+        <section class="settings-section">
+            <h2><i class="fas fa-user"></i> الملف الشخصي</h2>
+            <div class="setting-item">
+                <label>الاسم</label>
+                <input type="text" id="user-name" placeholder="اسمك">
+            </div>
+            <div class="setting-item">
+                <label>نوع الإعاقة</label>
+                <select id="disability-type">
+                    <option value="hearing">إعاقة سمعية</option>
+                    <option value="visual">إعاقة بصرية</option>
+                    <option value="motor">إعاقة حركية</option>
+                    <option value="cognitive">توحد/إعاقة ذهنية</option>
+                    <option value="learning">صعوبات تعلم</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- إمكانية الوصول -->
+        <section class="settings-section">
+            <h2><i class="fas fa-universal-access"></i> إمكانية الوصول</h2>
+            <div class="setting-item">
+                <label>حجم الخط</label>
+                <select id="font-size">
+                    <option value="normal">عادي</option>
+                    <option value="large">كبير</option>
+                    <option value="xlarge">كبير جداً</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>سرعة الصوت</label>
+                <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1">
+                <span id="voice-speed-value">1.0x</span>
+            </div>
+            <div class="setting-item">
+                <label>التباين العالي</label>
+                <input type="checkbox" id="high-contrast">
+            </div>
+        </section>
+
+        <!-- اللغة -->
+        <section class="settings-section">
+            <h2><i class="fas fa-language"></i> اللغة</h2>
+            <div class="setting-item">
+                <label>لغة التطبيق</label>
+                <select id="app-language">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- الأمان -->
+        <section class="settings-section">
+            <h2><i class="fas fa-shield-alt"></i> الأمان والخصوصية</h2>
+            <div class="setting-item">
+                <label>وضع الأطفال</label>
+                <button class="secondary-btn" onclick="toggleChildMode()">تفعيل</button>
+            </div>
+            <div class="setting-item">
+                <label>رمز المرافق</label>
+                <button class="secondary-btn" onclick="generateCompanionCode()">إنشاء رمز</button>
+            </div>
+        </section>
+
+        <!-- جهات الاتصال للطوارئ -->
+        <section class="settings-section">
+            <h2><i class="fas fa-phone"></i> جهات الاتصال للطوارئ</h2>
+            <div id="emergency-contacts">
+                <p>لم يتم إضافة جهات اتصال بعد</p>
+            </div>
+            <button class="primary-btn" onclick="addEmergencyContact()">
+                <i class="fas fa-plus"></i> إضافة جهة اتصال
+            </button>
+        </section>
+
+        <!-- حفظ -->
+        <div class="settings-actions">
+            <button class="primary-btn" onclick="saveSettings()">
+                <i class="fas fa-save"></i> حفظ التغييرات
+            </button>
+        </div>
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/security.js"></script>
+    <script src="js/i18n.js"></script>
+
+    <script>
+        // تحميل الإعدادات
+        function loadSettings() {
+            const user = getFromStorage(CONFIG.STORAGE_KEYS.USER_PROFILE, {});
+            const prefs = getFromStorage(CONFIG.STORAGE_KEYS.ACCESSIBILITY_PREFS, {});
+
+            if (user.name) document.getElementById('user-name').value = user.name;
+            if (user.disabilityType) document.getElementById('disability-type').value = user.disabilityType;
+            if (prefs.fontSize) document.getElementById('font-size').value = prefs.fontSize;
+            if (prefs.voiceSpeed) {
+                document.getElementById('voice-speed').value = prefs.voiceSpeed;
+                document.getElementById('voice-speed-value').textContent = prefs.voiceSpeed + 'x';
+            }
+        }
+
+        // حفظ الإعدادات
+        function saveSettings() {
+            const user = {
+                name: document.getElementById('user-name').value,
+                disabilityType: document.getElementById('disability-type').value
+            };
+
+            const prefs = {
+                fontSize: document.getElementById('font-size').value,
+                voiceSpeed: document.getElementById('voice-speed').value,
+                highContrast: document.getElementById('high-contrast').checked
+            };
+
+            saveToStorage(CONFIG.STORAGE_KEYS.USER_PROFILE, user);
+            saveToStorage(CONFIG.STORAGE_KEYS.ACCESSIBILITY_PREFS, prefs);
+
+            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+
+            // تطبيق التغييرات
+            accessibilityManager.setDisabilityType(user.disabilityType);
+            accessibilityManager.applyPreferences();
+        }
+
+        // تفعيل وضع الأطفال
+        function toggleChildMode() {
+            const pin = prompt('أدخل رمز PIN (4 أرقام):');
+            if (pin && pin.length === 4) {
+                childSafetyManager.enableChildMode(pin);
+            }
+        }
+
+        // إضافة جهة اتصال
+        function addEmergencyContact() {
+            const name = prompt('اسم جهة الاتصال:');
+            const phone = prompt('رقم الهاتف:');
+            if (name && phone) {
+                showNotification('تم إضافة جهة الاتصال', 'success');
+            }
+        }
+
+        // تحديث عرض سرعة الصوت
+        document.getElementById('voice-speed').addEventListener('input', (e) => {
+            document.getElementById('voice-speed-value').textContent = e.target.value + 'x';
+        });
+
+        // تحميل الإعدادات عند فتح الصفحة
+        window.addEventListener('DOMContentLoaded', loadSettings);
+    </script>
+</body>
+
+</html>

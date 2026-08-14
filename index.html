@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <script>
+        window.onerror = function (msg, url, line, col, error) {
+            var div = document.createElement("div");
+            div.style.cssText = "position:fixed;top:0;left:0;right:0;background:red;color:white;padding:20px;z-index:99999;font-size:20px;white-space:pre-wrap;direction:ltr;text-align:left;";
+            div.innerText = "⚠️ CRITICAL ERROR:\n" + msg + "\nAt: " + url + ":" + line + ":" + col + "\n" + (error ? error.stack : "");
+            document.documentElement.appendChild(div);
+        };
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All-Able - تطبيق ذكي شامل لتمكين ذوي الاحتياجات الخاصة">
+    <meta name="keywords" content="ذوي الاحتياجات الخاصة, إمكانية الوصول, لغة الإشارة, تواصل بديل">
+    <title>All-Able - تطبيق واحد لكل الاحتياجات</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <!-- Config -->
+    <script src="config.js"></script>
+</head>
+
+<body class="landing-page">
+    <script>
+        // ALERT TO VERIFY UPDATE
+        alert("✅ تم تحديث النظام بنجاح! \n اضغطي OK واتركي الصفحة تحمل.");
+    </script>
+    <!-- شاشة التحميل -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-animation">
+                <i class="fas fa-universal-access"></i>
+            </div>
+            <h2>AllAble</h2>
+            <p>جاري التحميل...</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية -->
+    <main id="main-content" class="hidden">
+        <!-- القسم الأول: الترحيب -->
+        <section class="hero-section">
+            <div class="hero-background">
+                <div class="gradient-overlay"></div>
+                <div class="animated-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <div class="logo-container">
+                    <i class="fas fa-universal-access logo-icon"></i>
+                    <h1 class="app-title">All-Able</h1>
+                </div>
+
+                <p class="hero-tagline">تطبيق واحد… يتغير تلقائيًا ليفهمك ويخدمك مهما كانت احتياجاتك</p>
+
+                <div class="hero-features">
+                    <div class="feature-badge">
+                        <i class="fas fa-brain"></i>
+                        <span>ذكاء اصطناعي</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-hands"></i>
+                        <span>لغة إشارة</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>أمان تام</span>
+                    </div>
+                </div>
+
+                <button class="cta-button" id="start-button" aria-label="ابدأ الآن">
+                    <span>ابدأ الآن</span>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+
+                <!-- زر التحكم الصوتي -->
+                <button class="voice-control-btn" id="voice-control-toggle" aria-label="تفعيل التحكم الصوتي">
+                    <i class="fas fa-microphone"></i>
+                    <span>التحكم الصوتي</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- القسم الثاني: اختيار نوع الإعاقة -->
+        <section class="setup-section hidden" id="setup-section">
+            <div class="setup-container">
+                <div class="setup-header">
+                    <h2>اختر نوع الاحتياج الخاص بك</h2>
+                    <p>سنقوم بتخصيص التطبيق ليناسبك تمامًا</p>
+                </div>
+
+                <div class="disability-cards">
+                    <!-- بطاقة الإعاقة السمعية -->
+                    <div class="disability-card" data-type="hearing">
+                        <div class="card-icon">
+                            <i class="fas fa-deaf"></i>
+                        </div>
+                        <h3>إعاقة سمعية</h3>
+                        <p>لغة إشارة، نصوص، تنبيهات مرئية</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> تحويل الصوت إلى نص</li>
+                            <li><i class="fas fa-check"></i> لغة إشارة تلقائية</li>
+                            <li><i class="fas fa-check"></i> تنبيهات مرئية</li>
+                        </ul>
+                        <button class="select-btn" data-type="hearing">اختر</button>
+                    </div>
+
+                    <!-- بطاقة الإعاقة البصرية -->
+                    <div class="disability-card" data-type="visual">
+                        <div class="card-icon">
+                            <i class="fas fa-eye-slash"></i>
+                        </div>
+                        <h3>إعاقة بصرية</h3>
+                        <p>قراءة صوتية، تكبير، تباين عالي</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> قارئ شاشة ذكي</li>
+                            <li><i class="fas fa-check"></i> أوامر صوتية</li>
+                            <li><i class="fas fa-check"></i> وصف الصور</li>
+                        </ul>
+                        <button class="select-btn" data-type="visual">اختر</button>
+                    </div>
+
+                    <!-- بطاقة الإعاقة الحركية -->
+                    <div class="disability-card" data-type="motor">
+                        <div class="card-icon">
+                            <i class="fas fa-wheelchair"></i>
+                        </div>
+                        <h3>إعاقة حركية</h3>
+                        <p>أزرار كبيرة، تحكم صوتي، سهولة</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> أزرار ضخمة</li>
+                            <li><i class="fas fa-check"></i> تحكم بالصوت</li>
+                            <li><i class="fas fa-check"></i> تقليل الخطوات</li>
+                        </ul>
+                        <button class="select-btn" data-type="motor">اختر</button>
+                    </div>
+
+                    <!-- بطاقة الإعاقة الذهنية/التوحد -->
+                    <div class="disability-card" data-type="cognitive">
+                        <div class="card-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h3>توحد / إعاقة ذهنية</h3>
+                        <p>تبسيط، رموز، ألوان هادئة</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> واجهة مبسطة</li>
+                            <li><i class="fas fa-check"></i> رموز واضحة</li>
+                            <li><i class="fas fa-check"></i> تقليل التشتت</li>
+                        </ul>
+                        <button class="select-btn" data-type="cognitive">اختر</button>
+                    </div>
+
+                    <!-- بطاقة صعوبات التعلم -->
+                    <div class="disability-card" data-type="learning">
+                        <div class="card-icon">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <h3>صعوبات تعلم</h3>
+                        <p>شرح مبسط، صور، خطوات واضحة</p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> نصوص مبسطة</li>
+                            <li><i class="fas fa-check"></i> صور توضيحية</li>
+                            <li><i class="fas fa-check"></i> شرح خطوة بخطوة</li>
+                        </ul>
+                        <button class="select-btn" data-type="learning">اختر</button>
+                    </div>
+                </div>
+
+                <div class="setup-footer">
+                    <button class="skip-btn" id="skip-setup">تخطي الآن</button>
+                    <p class="setup-note">يمكنك تغيير هذا الإعداد في أي وقت من الإعدادات</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- زر الطوارئ العائم -->
+    <button class="emergency-fab" id="emergency-btn" aria-label="طوارئ">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/utils.js?v=2.1"></script>
+    <script src="js/accessibility.js?v=2.1"></script>
+    <script src="js/content-middleware.js?v=2.1"></script>
+    <script src="js/security.js?v=2.1"></script>
+    <script src="js/i18n.js?v=2.1"></script>
+    <script src="js/relaxation.js?v=2.1"></script>
+    <script src="js/app.js?v=2.1"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

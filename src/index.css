@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Palette */
+  --color-sky-blue: #87CEEB;
+  --color-sky-blue-light: #E0F7FA;
+  --color-mint-green: #98FF98;
+  --color-mint-green-dark: #2E8B57;
+
+  /* Secondary Palette */
+  --color-lavender: #E6E6FA;
+  --color-purple-light: #D8BFD8;
+  --color-warm-beige: #FFF8E7;
+  /* Adjusted for warmth */
+  --color-off-white: #FAF9F6;
+
+  /* Text */
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #888888;
+
+  /* UI */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+  --font-main: 'Tajawal', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-off-white);
+  color: var(--color-text-primary);
+  direction: rtl;
+  overflow-x: hidden;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-family: var(--font-main);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* Utilities */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  /* Mobile app feel */
+  height: 100%;
+  background-color: white;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}

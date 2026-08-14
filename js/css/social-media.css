@@ -1,0 +1,250 @@
+/* ========================================
+   AllAble - Social Media Styles
+   تنسيقات صفحة السوشيال ميديا
+   ======================================== */
+
+/* ========== التخطيط العام (Layout) ========== */
+.social-main {
+    padding: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 80vh;
+}
+
+/* ========== اختيار المنصة (Platform Selector) ========== */
+.platform-selector {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+    flex-wrap: wrap; /* للسماح بالالتفاف في الشاشات الصغيرة */
+}
+
+.platform-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    min-width: 100px;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border: 2px solid var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.platform-btn i {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+    transition: transform var(--transition-base);
+}
+
+/* حالات التحويم والنشاط */
+.platform-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.platform-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow);
+}
+
+.platform-btn:hover i,
+.platform-btn.active i {
+    transform: scale(1.1);
+}
+
+/* ألوان خاصة لكل منصة عند النشاط */
+.platform-btn[data-platform="youtube"].active {
+    background: #ff0000;
+    border-color: #ff0000;
+}
+
+.platform-btn[data-platform="facebook"].active {
+    background: #1877f2;
+    border-color: #1877f2;
+}
+
+.platform-btn[data-platform="instagram"].active {
+    background: #e1306c; /* Gradient is hard in background-color, distinct solid is fine */
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border: none;
+}
+
+.platform-btn[data-platform="twitter"].active {
+    background: #1da1f2; /* Or X black */
+    border-color: #1da1f2;
+}
+
+/* ========== شريط التغذية (Feed Info) ========== */
+.social-feed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading-feed {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-muted);
+    font-size: var(--font-size-lg);
+}
+
+/* ========== أنماط التضمين (Embeds) - منقولة من HTML ========== */
+.embed-wrapper {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    border: 2px solid transparent;
+    transition: all var(--transition-base);
+    overflow: hidden; /* لمنع خروج المحتوى */
+}
+
+.embed-wrapper:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.embed-content {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: #000; /* خلفية سوداء للفيديوهات */
+}
+
+/* Loading State */
+.loading-embed {
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 2rem;
+}
+
+/* ========== أدوات إمكانية الوصول (A11y Controls) ========== */
+.a11y-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--bg-tertiary);
+    flex-wrap: wrap;
+}
+
+.a11y-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    min-width: 120px; /* لضمان عرض مناسب */
+}
+
+.btn-listen { background: #e0f2fe; color: #0284c7; }
+.btn-listen:hover { background: #0284c7; color: white; }
+
+.btn-sign { background: #f0fdf4; color: #16a34a; }
+.btn-sign:hover { background: #16a34a; color: white; }
+
+.btn-describe { background: #fefce8; color: #ca8a04; }
+.btn-describe:hover { background: #ca8a04; color: white; }
+
+.btn-simplify { background: #f5f3ff; color: #7c3aed; }
+.btn-simplify:hover { background: #7c3aed; color: white; }
+
+/* ========== High Contrast Support ========== */
+body.high-contrast .embed-wrapper {
+    border: 3px solid white;
+    background: black;
+}
+
+body.high-contrast .platform-btn {
+    border: 2px solid white;
+    color: white;
+    background: black;
+}
+
+body.high-contrast .platform-btn.active {
+    background: white;
+    color: black;
+    border-color: white;
+}
+
+body.high-contrast .a11y-btn {
+    background: black;
+    border: 2px solid white;
+    color: white;
+}
+
+body.high-contrast .a11y-btn:hover {
+    background: white;
+    color: black;
+}
+
+/* ========== Hearing / Visual Large Text Support ========== */
+/* ضبط الأحجام عند تكبير الخط */
+body.theme-hearing .platform-btn,
+body.theme-visual .platform-btn {
+    min-width: 140px;
+    padding: var(--spacing-xl);
+}
+
+body.theme-hearing .platform-btn i {
+    font-size: 2.5rem;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .platform-selector {
+        justify-content: flex-start;
+        overflow-x: auto; /* سكرول أفقي في الموبايل */
+        padding-bottom: 10px;
+        flex-wrap: nowrap; /* منع الالتفاف لجعلها شريط تمرير */
+    }
+
+    .platform-btn {
+        flex-shrink: 0; /* منع الانكماش */
+    }
+
+    .social-main {
+        padding: var(--spacing-lg);
+    }
+    
+    .a11y-controls {
+        flex-direction: column;
+    }
+    
+    .a11y-btn {
+        width: 100%;
+    }
+}

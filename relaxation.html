@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllAble - تمارين الاسترخاء</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="config.js"></script>
+
+    <style>
+        .relaxation-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .relaxation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: var(--shadow-xl);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .exercise-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .exercise-card h3 {
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .exercise-card p {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .exercise-meta {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-item i {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary-color);
+        }
+
+        .meta-item span {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Overlay للتمرين */
+        .relaxation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .relaxation-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .relaxation-container-inner {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-3xl);
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: var(--spacing-lg);
+            left: var(--spacing-lg);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .exercise-visual {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: var(--spacing-2xl) 0;
+        }
+
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            transition: transform 4s ease-in-out;
+        }
+
+        .exercise-instruction {
+            text-align: center;
+            font-size: var(--font-size-2xl);
+            color: var(--text-primary);
+            margin: var(--spacing-2xl) 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exercise-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: var(--spacing-xl) 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .exercise-controls {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .sense-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+        }
+
+        .body-diagram,
+        .body-scan-diagram,
+        .calm-scene {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+
+<body class="relaxation-page">
+    <header class="page-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <button class="back-btn" onclick="window.location.href='dashboard.html'" style="color: white;">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        <h1 style="color: white;">
+            <i class="fas fa-spa"></i>
+            تمارين الاسترخاء والتهدئة
+        </h1>
+    </header>
+
+    <main class="relaxation-container">
+        <div class="welcome-section" style="text-align: center; color: white; margin-bottom: 3rem;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">خذ نفساً عميقاً... استرخي</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9;">اختر التمرين المناسب لك</p>
+        </div>
+
+        <div class="exercises-grid">
+            <!-- تمرين التنفس 4-7-8 -->
+            <div class="exercise-card">
+                <div class="exercise-icon">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <h3>تمرين التنفس 4-7-8</h3>
+                <p>تمرين بسيط للتنفس يساعد على الاسترخاء والنوم</p>
+                <div class="exercise-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>5 دقائق</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>سهل</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="relaxationManager.startExercise('breathing-4-7-8')">
+                    <i class="fas fa-play"></i> ابدأ التمرين
+                </button>
+            </div>
+
+            <!-- الاسترخاء التدريجي -->
+            <div class="exercise-card">
+                <div class="exercise-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3>الاسترخاء التدريجي</h3>
+                <p>شد وإرخاء العضلات بالتدريج</p>
+                <div class="exercise-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>10 دقائق</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>متوسط</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="relaxationManager.startExercise('progressive-relaxation')">
+                    <i class="fas fa-play"></i> ابدأ التمرين
+                </button>
+            </div>
+
+            <!-- تمرين الحواس الخمس -->
+            <div class="exercise-card">
+                <div class="exercise-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>تمرين الحواس الخمس</h3>
+                <p>التركيز على الحاضر باستخدام حواسك</p>
+                <div class="exercise-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>5 دقائق</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>سهل</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="relaxationManager.startExercise('mindfulness-5-senses')">
+                    <i class="fas fa-play"></i> ابدأ التمرين
+                </button>
+            </div>
+
+            <!-- التخيل الموجه -->
+            <div class="exercise-card">
+                <div class="exercise-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3>التخيل الموجه</h3>
+                <p>تخيل مكان هادئ ومريح</p>
+                <div class="exercise-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>8 دقائق</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>متوسط</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="relaxationManager.startExercise('guided-imagery')">
+                    <i class="fas fa-play"></i> ابدأ التمرين
+                </button>
+            </div>
+
+            <!-- مسح الجسم -->
+            <div class="exercise-card">
+                <div class="exercise-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3>مسح الجسم</h3>
+                <p>الانتباه لكل جزء من جسمك</p>
+                <div class="exercise-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>10 دقائق</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>متقدم</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="relaxationManager.startExercise('body-scan')">
+                    <i class="fas fa-play"></i> ابدأ التمرين
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/relaxation.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Able - التعليم والتأهيل</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <!-- الشريط العلوي -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-universal-access"></i>
+                <span>All-Able</span>
+            </div>
+
+            <h2>التعليم والتأهيل</h2>
+
+            <button class="back-btn-header" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-right"></i>
+                رجوع
+            </button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="education-main">
+        <!-- أزرار الإعاقات للتنقل السريع بين طرق الشرح والتفاعل -->
+        <div class="disability-switcher-container">
+            <button class="switcher-btn active" id="btn-hearing" onclick="switchDisabilityMode('hearing')">
+                <i class="fas fa-deaf"></i>
+                <span>إعاقة سمعية</span>
+            </button>
+            <button class="switcher-btn" id="btn-visual" onclick="switchDisabilityMode('visual')">
+                <i class="fas fa-eye-slash"></i>
+                <span>إعاقة بصرية</span>
+            </button>
+            <button class="switcher-btn" id="btn-motor" onclick="switchDisabilityMode('motor')">
+                <i class="fas fa-wheelchair"></i>
+                <span>إعاقة حركية</span>
+            </button>
+            <button class="switcher-btn" id="btn-cognitive" onclick="switchDisabilityMode('cognitive')">
+                <i class="fas fa-puzzle-piece"></i>
+                <span>ذهنية / توحد</span>
+            </button>
+            <button class="switcher-btn" id="btn-learning" onclick="switchDisabilityMode('learning')">
+                <i class="fas fa-book-reader"></i>
+                <span>صعوبات تعلم</span>
+            </button>
+        </div>
+
+        <!-- الفئات -->
+        <div class="categories-section">
+            <h3>اختر المجال</h3>
+            <div class="categories-grid">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th"></i>
+                    <span>الكل</span>
+                </button>
+                <button class="category-btn" data-category="sign">
+                    <i class="fas fa-hands"></i>
+                    <span>لغة الإشارة</span>
+                </button>
+                <button class="category-btn" data-category="life">
+                    <i class="fas fa-heart"></i>
+                    <span>مهارات حياتية</span>
+                </button>
+                <button class="category-btn" data-category="tech">
+                    <i class="fas fa-laptop"></i>
+                    <span>تقنية</span>
+                </button>
+                <button class="category-btn" data-category="social">
+                    <i class="fas fa-users"></i>
+                    <span>تواصل اجتماعي</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- الدروس -->
+        <div class="lessons-section">
+            <h3>الدروس المتاحة</h3>
+            <div class="lessons-grid" id="lessons-grid">
+                <!-- سيتم ملؤها بالدروس -->
+            </div>
+        </div>
+
+        <!-- التقدم -->
+        <div class="progress-section">
+            <h3>تقدمك</h3>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4 id="completed-lessons">0</h4>
+                        <p>دروس مكتملة</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4 id="total-time">0</h4>
+                        <p>دقيقة تعلم</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4 id="achievements">0</h4>
+                        <p>إنجازات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- 🎮 لعبة صندوق الفرز التفاعلية المتقدمة  -->
+        <!-- ========================================= -->
+        <section class="sorting-game-section" id="sorting-game-section" aria-label="لعبة صندوق الفرز">
+
+            <!-- عنوان اللعبة -->
+            <div class="sorting-game-header">
+                <div class="sorting-game-title-row">
+                    <div class="sorting-game-icon-badge">🎮</div>
+                    <div>
+                        <h2 class="sorting-game-title">لعبة صندوق الفرز التفاعلي المتقدمة</h2>
+                        <p class="sorting-game-subtitle">هل تستطيع تحديد التصرف الصحيح من الخاطئ؟ اختر بحكمة!</p>
+                    </div>
+                </div>
+                <!-- عداد النقاط -->
+                <div class="sorting-score-board">
+                    <div class="score-item score-correct">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="score-correct">0</span>
+                        <small>صحيح</small>
+                    </div>
+                    <div class="score-divider">|</div>
+                    <div class="score-item score-wrong">
+                        <i class="fas fa-times-circle"></i>
+                        <span id="score-wrong">0</span>
+                        <small>خاطئ</small>
+                    </div>
+                    <div class="score-divider">|</div>
+                    <div class="score-item score-total">
+                        <i class="fas fa-gamepad"></i>
+                        <span id="score-total">0</span>
+                        <small>إجمالي</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مؤشر السيناريوهات -->
+            <div class="scenario-nav">
+                <button class="scenario-nav-dot active" id="dot-0" onclick="loadScenario(0)" aria-label="السيناريو الأول: مناهضة التنمر"></button>
+                <button class="scenario-nav-dot" id="dot-1" onclick="loadScenario(1)" aria-label="السيناريو الثاني: السلامة الشخصية"></button>
+                <button class="scenario-nav-dot" id="dot-2" onclick="loadScenario(2)" aria-label="السيناريو الثالث: الأمان الرقمي"></button>
+                <span class="scenario-counter" id="scenario-counter">١ / ٣</span>
+            </div>
+
+            <!-- منطقة اللعبة الثلاثية الأعمدة -->
+            <div class="sorting-arena" id="sorting-arena">
+
+                <!-- العمود الأيمن: صندوق التصرف الآمن -->
+                <div class="sort-box sort-box-safe" id="sort-box-safe" onclick="checkSortingChoice('safe')" role="button" tabindex="0" aria-label="صندوق التصرف الآمن - انقر لاختيار هذا التصرف" onkeydown="if(event.key==='Enter'||event.key===' ') checkSortingChoice('safe')">
+                    <div class="sort-box-glow safe-glow"></div>
+                    <div class="sort-box-icon" id="safe-icon">🛡️</div>
+                    <h3 class="sort-box-label">تصرف آمن</h3>
+                    <p class="sort-box-sublabel">Safe Action</p>
+                    <div class="sort-box-pulse safe-pulse"></div>
+                </div>
+
+                <!-- العمود الأوسط: بطاقة السيناريو -->
+                <div class="scenario-card-container">
+                    <div class="scenario-tag" id="scenario-tag">
+                        <i class="fas fa-tag"></i>
+                        <span id="scenario-topic-label">مناهضة التنمر</span>
+                    </div>
+                    <div class="scenario-card" id="scenario-card">
+                        <div class="scenario-emoji" id="scenario-emoji">🤝</div>
+                        <p class="scenario-text" id="scenario-text">
+                            انقر على أحد الصندوقين لبدء اللعبة وتقييم التصرف الموضح!
+                        </p>
+                    </div>
+                    <div class="scenario-hint" id="scenario-hint">
+                        <i class="fas fa-hand-point-right"></i> اختر صندوقاً لتقييم هذا التصرف
+                    </div>
+                    <!-- صندوق الترجمة بلغة الإشارة للعبة -->
+                    <div class="subtitle-box" id="game-sign-subtitle-box" style="background:#0f172a; border-radius:12px; padding:15px; margin-top:15px; border:1px solid #334155; text-align:right; display:block;">
+                        <h4 style="color:#94a3b8; margin:0 0 8px 0; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+                            <i class="fas fa-closed-captioning" style="color:#6366f1;"></i>
+                            الترجمة النصية بلغة الإشارة:
+                        </h4>
+                        <p id="game-sign-subtitle-text" style="color:#f8fafc; font-size:1.1rem; line-height:1.7; margin:0; font-weight:700;"></p>
+                    </div>
+                </div>
+
+                <!-- العمود الأيسر: صندوق التصرف الخاطئ -->
+                <div class="sort-box sort-box-danger" id="sort-box-danger" onclick="checkSortingChoice('danger')" role="button" tabindex="0" aria-label="صندوق التصرف الخاطئ - انقر لاختيار هذا التصرف" onkeydown="if(event.key==='Enter'||event.key===' ') checkSortingChoice('danger')">
+                    <div class="sort-box-glow danger-glow"></div>
+                    <div class="sort-box-icon" id="danger-icon">⚠️</div>
+                    <h3 class="sort-box-label">تصرف خاطئ</h3>
+                    <p class="sort-box-sublabel">Danger Action</p>
+                    <div class="sort-box-pulse danger-pulse"></div>
+                </div>
+            </div>
+
+            <!-- صندوق التغذية الراجعة -->
+            <div class="sorting-feedback" id="sorting-feedback" style="display:none;" role="alert" aria-live="polite">
+                <div class="feedback-icon" id="feedback-icon">✅</div>
+                <div class="feedback-body">
+                    <h4 class="feedback-title" id="feedback-title">إجابة صحيحة!</h4>
+                    <p class="feedback-message" id="feedback-message">أحسنت! هذا تصرف آمن وصحيح.</p>
+                </div>
+                <button class="feedback-next-btn" id="feedback-next-btn" onclick="nextScenario()">
+                    <span>التالي</span>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+
+            <!-- زر إعادة التشغيل بعد انتهاء الجولة -->
+            <div class="sorting-complete" id="sorting-complete" style="display:none;">
+                <div style="font-size:5rem; margin-bottom:15px;">🏆</div>
+                <h3>أكملت جميع السيناريوهات!</h3>
+                <p id="final-score-msg">النتيجة النهائية: 0 من 3</p>
+                <button class="btn btn-primary" onclick="resetGame()" style="margin-top:15px; padding: 15px 30px; font-size:1.1rem;">
+                    <i class="fas fa-redo"></i> إعادة اللعب
+                </button>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- نافذة الدرس -->
+    <div class="lesson-modal" id="lesson-modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" onclick="educationManager.closeLesson()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="lesson-header">
+                <h2 id="lesson-title"></h2>
+                <p id="lesson-description"></p>
+            </div>
+
+            <div class="lesson-body" id="lesson-body">
+                <!-- محتوى الدرس -->
+            </div>
+
+            <div class="lesson-actions">
+                <button class="btn btn-secondary" onclick="educationManager.previousStep()">
+                    <i class="fas fa-arrow-right"></i>
+                    السابق
+                </button>
+                <button class="btn btn-primary" onclick="educationManager.nextStep()">
+                    التالي
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-success" onclick="educationManager.completeLesson()" style="display: none;"
+                    id="complete-btn">
+                    <i class="fas fa-check"></i>
+                    إنهاء الدرس
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر الطوارئ -->
+    <button class="emergency-fab" onclick="window.location.href='emergency.html'">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/education.js"></script>
+    <script>
+        function switchDisabilityMode(type) {
+            // تحديث الإعاقة عالمياً
+            if (typeof accessibilityManager !== 'undefined') {
+                accessibilityManager.currentDisabilityType = type;
+                // حفظ في التخزين المحلي
+                if (typeof saveToStorage === 'function') {
+                    saveToStorage('allable_disability_type', type);
+                }
+                
+                // تطبيق الثيم المناسب
+                if (typeof accessibilityManager.applyTheme === 'function') {
+                    accessibilityManager.applyTheme();
+                }
+            }
+
+            // تحديث حالة الأزرار الفعالة بصرياً
+            document.querySelectorAll('.switcher-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            let btnId = 'btn-' + type;
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // إذا كان هناك درس مفتوح حالياً، أعد عرضه فوراً ليتطابق مع الوضع الجديد!
+            if (typeof educationManager !== 'undefined' && educationManager.currentLesson) {
+                educationManager.renderStep();
+            }
+
+            // تزامن لعبة الفرز مع الوضع الجديد
+            syncGameWithDisabilityMode(type);
+        }
+
+        // ========================================================
+        // 🎮 قاعدة بيانات الأسئلة الشاملة (50 سيناريو تفاعلي ديناميكي)
+        // ========================================================
+        const MASTER_QUIZ_DATABASE = [
+            // ── مناهضة التنمر 🤝 (17 سيناريو) ──
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '😢',
+                text: 'زميل يستخدم كلامًا مؤلمًا لإيذائك. هل تعزل نفسك وتبكي بمفردك دون إخبار أحد؟',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'العزلة والبكاء بمفردك لا يوقف التنمر. التصرف الصحيح: أخبر شخصًا بالغاً تثق به فورًا واطلب المساعدة!',
+                feedbackWrongTitle: '❌ حاول مجددًا! لم تحدد الصندوق الصحيح',
+                feedbackWrongMsg: 'التصرف الصحيح: عزل النفس والبكاء لا يحل المشكلة. يجب الإبلاغ عن التنمر فورًا.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🗣️',
+                text: 'رأيت زميلاً يتعرض للمضايقة في ساحة المدرسة، فذهبت فوراً لإخبار المعلم المسؤول.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وشجاع',
+                feedbackCorrectMsg: 'أحسنت! الإبلاغ عن التنمر فوراً للمعلم يساعد في حماية الزميل ونشر الأمان.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'السكوت عن التنمر يضُر بالجميع. التصرف الصحيح هو إبلاغ المعلم فوراً.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🤫',
+                text: 'قام أحد زملائك بنشر شائعة كاذبة عنك، فقررت التغيب عن المدرسة وتجنب الجميع.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الهروب والتغيب لا يحل المشكلة. التصرف الصحيح: واجه الشائعة بإعلام المعلم أو الإدارة لمساعدتك.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'التغيب ليس حلاً للتنمر. يجب التحدث مع شخص موثوق لإيقاف الشائعات.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🤝',
+                text: 'التدخل بلطف للدفاع عن زميل جديد يسخر منه الآخرون بسبب طريقة كلامه.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ونبيل',
+                feedbackCorrectMsg: 'الوقوف إلى جانب الآخرين بلطف يعزز روح التعاون ويوقف السخرية.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'الدفاع عن الزملاء بلطف هو التصرف الصحيح والآمن لمنع الاستقواء.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '😡',
+                text: 'قام زميل بدفعك بقوة في الطابور، فقمت بدفعه وضربه بالمثل لتثبت قوتك أمام الطلاب.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خطير',
+                feedbackCorrectMsg: 'مقابلة العنف بالعنف تزيد المشكلة سوءاً. التصرف الصحيح هو إبلاغ المشرف فوراً.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'الضرب والدفع بالمثل سلوك غير مقبول ويؤدي إلى المشاكل. اطلب مساعدة المعلم.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '😊',
+                text: 'تقديم الدعم والترحيب بزميل جديد في الفصل يرفض بقية الطلاب اللعب معه.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ولطيف',
+                feedbackCorrectMsg: 'أحسنت! إشراك الجميع في اللعب يبني صداقات قوية ويمنع شعورهم بالوحدة والنبذ.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'الترحيب بالزملاء الجدد وإشراكهم هو سلوك آمن وإنساني يجب اتباعه.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🏫',
+                text: 'التحدث مع المرشد الطلابي في المدرسة عندما تشعر بالحزن والضيق بسبب مضايقات مستمرة.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وذكي',
+                feedbackCorrectMsg: 'التحدث مع المرشد الطلابي يضمن لك الحصول على مساعدة متخصصة وسرية لإيقاف المضايقات.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'كتمان الحزن لا يفيد. اللجوء للمرشد الطلابي هو الخطوة المثالية والأمنة.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '✍️',
+                text: 'كتابة تعليقات ساخرة أو مسيئة على جدار الفصل أو السبورة حول زملائك.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الكتابة والإساءة للآخرين تشكل تنمراً وتخريباً للممتلكات المدرسية ويعاقب عليها القانون.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'التعليقات المسيئة ليست مزاحاً بل هي تنمر مباشر يضر بمشاعر الزملاء.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🧘',
+                text: 'تجاهل متنمر يحاول إغضابك بكلمات سخيفة، والابتعاد عنه بهدوء دون إظهار أي تأثر.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وحكيم',
+                feedbackCorrectMsg: 'عدم إعطاء المتنمر ردة الفعل الغاضبة التي يبحث عنها يجعله يمل ويتوقف عن مضايقتك.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'الابتعاد والتجاهل الذكي يسلب المتنمر قوته. هذا هو التصرف الصحيح.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '😂',
+                text: 'المشاركة بالضحك مع مجموعة من الطلاب يضايقون زميلاً خجولاً لتشعر بالانتماء إليهم.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الضحك مع المتنمرين يجعلك شريكاً في إيذاء الزميل الخجول. يجب رفض هذا السلوك.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'المشاركة في السخرية سلوك خاطئ وضار. الصواب هو مساندة الزميل الخجول.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '📸',
+                text: 'التقاط ونشر صور محرجة لزميلك دون علمه أو موافقته في فناء المدرسة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'تصوير الآخرين ونشر صورهم دون إذنهم انتهاك صارخ للخصوصية وتصرف غير قانوني.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'التقاط صور محرجة ونشرها يسبب أذى كبيراً. هذا تصرف خاطئ تماماً.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '📢',
+                text: 'إعلام إدارة المدرسة فوراً عند رؤية طالب يتعرض للعنف الجسدي أو الضرب من طلاب آخرين.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومسؤول',
+                feedbackCorrectMsg: 'التدخل السريع عن طريق إخبار الإدارة يمنع تفاقم العنف الجسدي وينقذ الزميل المصاب.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'الوقوف مكتوف الأيدي أمام العنف خطأ. يجب الاستعانة بالإدارة فوراً للحماية.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🚫',
+                text: 'منع أحد الزملاء من الانضمام لمجموعتكم الدراسية عمداً لإشعاره بالرفض والعزلة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الإقصاء الاجتماعي والنبذ المتعمد هو شكل من أشكال التنمر النفسي ويجب تجنبه.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'النبذ والعزل يسببان إيذاء نفسياً بالغاً. التصرف الصحيح هو الترحيب بالجميع.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '💌',
+                text: 'كتابة رسالة تشجيعية لطيفة لزميل تعرض للتنمر لتؤكد له أنه شخص رائع ومحبوب.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وجميل',
+                feedbackCorrectMsg: 'مواساة الضحايا ومساندتهم ترفع من روحهم المعنوية وتساعدهم على تجاوز الأثر النفسي للتنمر.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'مساندة الضحية بالكلمات الطيبة تصرف رائع وآمن ينشر المحبة والسلام.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🔨',
+                text: 'إتلاف أدوات زميلك أو إخفاء حقيبته المدرسيّة كعقاب له لأنه لم يسمح لك بنقل الواجب.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الاعتداء على ممتلكات الآخرين هو سلوك تخريبي وتنمري خارج عن حدود الأدب والسلامة.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'إتلاف أو إخفاء ممتلكات الآخرين خطأ جسيم. يجب احترام خصوصيات الزملاء.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🌈',
+                text: 'تكوين مجموعة صداقة شاملة ترحب بجميع الزملاء وتتعامل معهم بلطف واحترام متبادل.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وممتاز',
+                feedbackCorrectMsg: 'الاحترام المتبادل والترحاب يبني فصلاً دراسياً مثالياً خالياً من التنمر والعداوات.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'بناء صداقات إيجابية وشاملة هو أساس البيئة الآمنة والسليمة للجميع.'
+            },
+            {
+                topic: 'مناهضة التنمر 🤝',
+                emoji: '🏡',
+                text: 'إخبار والديك بصراحة وبدون خوف عن أي مضايقات أو تهديدات تتعرض لها في حافلة المدرسة.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومثالي',
+                feedbackCorrectMsg: 'مشاركة ما تواجهه مع أسرتك تضمن حمايتك ووضع حد فوري للمشاكل عبر التعاون مع المدرسة.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'لا يجب كتمان التهديدات. إخبار الوالدين فوراً يحميك ويوقف المتنمرين عند حدهم.'
+            },
+
+            // ── السلامة الشخصية 🛡️ (17 سيناريو) ──
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🚨',
+                text: 'حاول شخص غريب إجبارك على ركوب سيارته، فصرخت بقوة "لا!" وركضت فوراً لمكان مزدحم بالناس.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وشجاع جداً',
+                feedbackCorrectMsg: 'أحسنت! الصراخ للفت الانتباه والهروب للمكان المزدحم بالناس هو أفضل وسيلة للدفاع عن النفس في هذا الموقف.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'عند التعرض لمحاولة اختطاف، الصراخ والجري فوراً نحو مكان عام هو الخيار الوحيد للسلامة.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🚗',
+                text: 'قبول ركوب السيارة مع شخص غريب يدّعي أنه صديق لوالدك ويريد توصيلك للمنزل.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'لا تركب أبداً سيارة مع شخص لا تعرفه، حتى لو ادعى معرفة أسرتك. انتظر والديك أو اطلب مساعدة معلمك.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير جداً',
+                feedbackWrongMsg: 'الركوب مع الغرباء يعرضك لخطر الاختطاف. التصرف الآمن هو الرفض التام والابتعاد.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '📱',
+                text: 'حفظ رقم هاتف والديك وعنوان منزلك جيداً لاستخدامهما والاتصال بهما عند الطوارئ.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وذكي',
+                feedbackCorrectMsg: 'حفظ أرقام الطوارئ وعناوين السكن يحميك ويمكنك من طلب المساعدة السريعة عند الضياع أو حدوث مشكلة.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'حفظ بيانات التواصل الخاصة بالوالدين من أهم ركائز السلامة الشخصية لكل طفل.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🔑',
+                text: 'فتح الباب فوراً لشخص غريب يطرق باب المنزل وأنت بمفردك دون الاستفسار عن هويته.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'لا تفتح الباب للغرباء أبداً وأنت بمفردك. اتصل بوالديك أولاً ولا تخبر الغريب أنك لوحدك في البيت.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'فتح الباب للغرباء قد يعرض المنزل والأنفس للخطر. يجب التأكد من الهوية دائماً.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🍬',
+                text: 'رفض أخذ قطع حلوى شهية أو نقود يعرضها عليك شخص غريب في الحديقة العامة والذهاب لوالديك.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ويقظ',
+                feedbackCorrectMsg: 'ممتاز! قد يستخدم الغرباء الحلوى أو المال لاستدراج الأطفال. الرفض وإخبار الوالدين هو الخيار الأصح.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'الحلوى والهدايا من الغرباء قد تكون فخاً. التصرف الآمن هو رفضها تماماً.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🤐',
+                text: 'إخفاء سر مريب أو مخيف عن والديك لأن شخصاً آخر هددك بالأذى إن أخبرتهما.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'لا توجد أسرار يجب إخفاؤها عن الوالدين إذا كانت تجعلك خائفاً. تهديد الآخرين لك هو دليل على ضرورة الإبلاغ.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير',
+                feedbackWrongMsg: 'السر الذي يخيفك يجب إخبار الوالدين به فوراً. كتمانه يعطي المهدد فرصة لمزيد من الأذى.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '👉',
+                text: 'إخبار والديك أو شخص بالغ موثوق فوراً إذا قام أحد بلمس جسدك بطريقة تجعلك غير مرتاح.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وشجاع',
+                feedbackCorrectMsg: 'جسدك ملكك وحدك! الإبلاغ الفوري عن أي لمسات مريبة يحميك ويحاسب الفاعل. لا تخجل أبداً من ذلك.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'اللمسات المزعجة تتطلب الصراخ بـ"لا" والذهاب مباشرة لإعلام الوالدين أو المعلم.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🏚️',
+                text: 'اللعب مع أصدقائك في مبانٍ مهجورة أو شوارع مظلمة وبعيدة عن الأعين بحجة الإثارة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'الأماكن المهجورة والمظلمة مليئة بالمخاطر الجسدية والغرباء المنحرفين. العب دائماً في الأماكن المخصصة والآمنة.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير جداً',
+                feedbackWrongMsg: 'اللعب بعيداً عن الأعين في مناطق معزولة يسهل الاعتداءات الجسدية أو التعرض للإصابات.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🚶',
+                text: 'الحفاظ على مسافة أمان كافية والابتعاد فوراً عن أي سيارة تتوقف بجانبك لتسألك عن الاتجاهات.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ويقظ',
+                feedbackCorrectMsg: 'إذا أراد سائق سيارة غريب الاستفسار، فليستعن بشخص بالغ. بقاؤك بعيداً يمنع محاولات السحب السريعة.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'الاقتراب من نوافذ سيارات الغرباء خطر جداً. حافظ على مسافتك وابتعد فوراً.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🗣️',
+                text: 'التحدث مع غرباء في الشارع وإخبارهم أن والديك غير موجودين في البيت وأنك بمفردك.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير للغاية',
+                feedbackCorrectMsg: 'إفشاء معلومات غياب الأهل عن البيت للغرباء يعرض المنزل للسرقة أو الاقتحام ويهدد سلامتك الشخصية.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'لا تشارك أبداً أسرار تواجدك بمفردك مع غرباء. السلامة تقتضي الحذر والصمت.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🙋',
+                text: 'الاستئذان دائماً من والديك أو معلمك قبل مغادرة أي مكان أو الخروج مع أي شخص.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومنضبط',
+                feedbackCorrectMsg: 'الاستئذان يحافظ على تتبع الأهل لمكانك، ويمنع حالات الاختطاف والضياع ويجعلهم مطمئنين عليك دائماً.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'مغادرة الأماكن دون إذن يعرض حياتك للخطر ويعيق إيجادك عند الطوارئ.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🏃‍♂️',
+                text: 'الذهاب مع شخص لا تعرفه إلى مكان آخر بحجة أنه يريد أن يريك ألعاباً أو حيوانات أليفة جميلة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'مرافقة الغرباء هي أكبر مهدد للسلامة الشخصية. ارفض بحزم وقل: "لا أستطيع الذهاب دون والدتي".',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير جداً',
+                feedbackWrongMsg: 'استدراج الأطفال بالحيوانات أو الألعاب حيلة شائعة للخطف. يجب الرفض فوراً.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '📞',
+                text: 'الاتصال الفوري برقم الطوارئ أو الشرطة عند الشعور بخطر أو تهديد مباشر لسلامتك.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومثالي',
+                feedbackCorrectMsg: 'أرقام الطوارئ وضعت لحمايتك. الاتصال بها في الأوقات العصيبة ينقذ الأرواح ويوفر استجابة فورية.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'عند الشعور بالخطر الحتمي، الاتصال الفوري بالسلطات هو الخيار الآمن والأذكى.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '📸',
+                text: 'السماح للآخرين بالتقاط صور خاصة لجسدك أو خلع ملابسك كنوع من المزاح أو اللعب.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ ومخزي',
+                feedbackCorrectMsg: 'حماية خصوصية جسدك هي حقك المطلق. لا تسمح لأي شخص بتصويرك أو لمسك بطريقة غير مألوفة.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير',
+                feedbackWrongMsg: 'الصور الخاصة بالجسد خطر حقيقي وتستخدم للاستغلال. قل "لا" بقوة واحم خصوصيتك.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🗣️',
+                text: 'التدرب على قول "لا!" بصوت عالٍ وحازم لرفض أي تصرف يجعلك تشعر بالخوف أو القلق.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وقوي',
+                feedbackCorrectMsg: 'التعبير الحازم عن الرفض يضع حدوداً قوية تمنع الآخرين من التجرؤ على تجاوز حدودك الشخصية.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'الخجل والتردد في حماية نفسك خطأ. التدرب على كلمة "لا" الحازمة هو أساس السلامة.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🌃',
+                text: 'التجول بمفردك في أوقات متأخرة من الليل في الشوارع دون علم أفراد أسرتك.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'الخروج بمفردك ليلاً يعرضك لخطر كبير بسبب قلة المارة ونشاط ضعاف النفوس. التزم ببيتك الآمن.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير جداً',
+                feedbackWrongMsg: 'التجول ليلاً بدون مرافق بالغ هو تهديد صريح لسلامتك الشخصية. ابقَ في أمان.'
+            },
+            {
+                topic: 'السلامة الشخصية 🛡️',
+                emoji: '🔒',
+                text: 'التأكد من إقفال الأبواب والنوافذ بإحكام عند البقاء بمفردك في المنزل كإجراء وقائي أساسي.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومسؤول',
+                feedbackCorrectMsg: 'إغلاق الأبواب يحميك من أي تسلل مفاجئ للغرباء، ويجعلهم مطمئنين عليك دائماً داخل حصنك الخاص.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'ترك الأبواب مفتوحة إهمال يعرضك للمخاطر. إغلاقها بإحكام هو الخطوة الآمنة.'
+            },
+
+            // ── الأمان الرقمي 🔒 (16 سيناريو) ──
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🔑',
+                text: 'إنشاء كلمة مرور قوية جداً لحساباتك تحتوي رموزاً وأرقاماً وحروفاً وتغييرها بانتظام.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومحترف',
+                feedbackCorrectMsg: 'كلمات المرور المعقدة تمنع القراصنة من تخمين حساباتك وتضمن حماية ملفاتك التعليمية والخاصة.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'استخدام كلمات مرور ضعيفة يسهل اختراقك وسرقة هويتك الرقمية. هذا تصرف غير آمن.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🔗',
+                text: 'الضغط على رابط مجهول في رسالة نصية تدعي فوزك بجائزة كبرى وتطلب معلوماتك الشخصية.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'هذه الروابط تسمى "روابط الاحتيال" وتستخدم لاختراق أجهزتك وسرقة صورك وبياناتك. احذر منها!',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير جداً',
+                feedbackWrongMsg: 'الروابط المجهولة التي تعد بجوائز وهمية هي فخاخ اختراق رقمية. احرص على تجنبها.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🎮',
+                text: 'رفض إرسال اسمك الكامل أو عنوان سكنك أو صورك الشخصية لشخص تعرفت عليه في لعبة إلكترونية.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وذكي للغاية',
+                feedbackCorrectMsg: 'الغرباء في الألعاب الإلكترونية قد يتظاهرون بالطيبة لاستدراجك. حماية بياناتك الشخصية تبقيك آمناً.',
+                feedbackWrongTitle: '❌ ليس هذا الخيار الأمثل',
+                feedbackWrongMsg: 'مشاركة البيانات الحساسة مع لاعبي الإنترنت خطر حقيقي. التصرف السليم هو كتمانها.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '📝',
+                text: 'مشاركة كلمة المرور الخاصة بحسابك التعليمي أو الشخصي مع أصدقائك في المدرسة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'كلمات المرور سرية للغاية ويجب ألا يراها أحد سواك وأولياء أمورك لمنع إساءة استخدام حساباتك.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف غير آمن',
+                feedbackWrongMsg: 'حتى الأصدقاء لا يجب إشراكهم بكلمات المرور. شاركها فقط مع والديك عند الحاجة.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🛑',
+                text: 'إخبار والديك فوراً عند ظهور إعلان مريب أو محتوى غير لائق أو مخيف أثناء تصفحك للإنترنت.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ورائع',
+                feedbackCorrectMsg: 'مشاركة ما تراه على الويب مع الكبار يحميك من التهديدات السيبرانية والمواد الضارة والروابط الخبيثة.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'عدم إبلاغ والديك يتركك عرضة لمشاهدة مواد غير مناسبة أو التعرض للابتزاز الإلكتروني.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '👤',
+                text: 'استخدام اسمك الحقيقي الكامل وتاريخ ميلادك كاسم مستخدم ظاهر للجميع في الألعاب العامة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'يجب حماية هويتك على الويب باستخدام اسم مستعار لا يكشف عن عمرك أو اسمك الحقيقي لتجنب تتبعك.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'استخدام بيانات حقيقية كاسم مستعار يسهل استهدافك واختراق خصوصيتك. استخدم اسماً مستعاراً.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '📥',
+                text: 'تحميل ألعاب أو برامج مجانية من مواقع عشوائية غير موثوقة دون استشارة شخص بالغ.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وخطير',
+                feedbackCorrectMsg: 'المواقع المجهولة تدمج فيروسات وبرامج تجسس داخل البرمجيات المجانية لتدمير جهازك أو اختراق كاميرتك.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف غير آمن',
+                feedbackWrongMsg: 'تنزيل برامج غير موثوقة يعرض كامل شبكتك المنزلية للاختراق. استعن بوالديك دائماً.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🛡️',
+                text: 'ضبط إعدادات الخصوصية في حسابك لتكون منشوراتك وصورك مرئية لأصدقائك الحقيقيين فقط.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ومحترف',
+                feedbackCorrectMsg: 'رائع! جعل ملفاتك خاصة يحد من إمكانية سرقة صورك أو استخدام بياناتك من قبل الغرباء والمتسللين.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'الحسابات المفتوحة للعامة صيد سهل للمتنمرين والمبتزين إلكترونياً. قفل خصوصيتك هو الحل.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '👥',
+                text: 'قبول طلب صداقة من حساب شخص مجهول تماماً ولا يوجد أي أصدقاء مشتركون بينكما.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وغير آمن',
+                feedbackCorrectMsg: 'الحسابات المجهولة قد تكون وهمية وتخفي أشخاصاً سيئين يهدفون لجمع معلوماتك لابتزازك مستقبلاً.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير',
+                feedbackWrongMsg: 'لا تقبل أبداً صداقة الغرباء على مواقع التواصل. وافق فقط على من تعرفهم في الواقع.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '📷',
+                text: 'وضع ملصق لتغطية كاميرا الحاسوب أو الجهاز اللوحي عند عدم استخدامها لحماية خصوصيتك.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وذكي جداً',
+                feedbackCorrectMsg: 'تغطية الكاميرا تحميك من محاولات التجسس واختراق الكاميرات التي تقوم بها بعض البرمجيات الخبيثة بالخفاء.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'ترك الكاميرا مكشوفة قد يسمح للمخترقين بتصويرك دون علمك. التغطية خيار وقائي ممتاز.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '💳',
+                text: 'مشاركة بيانات بطاقة الائتمان الخاصة بوالديك في موقع ألعاب لشراء عملات افتراضية دون علمهما.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وجسيم',
+                feedbackCorrectMsg: 'سرقة أو نقل بيانات البطاقة البنكية دون إذن تصرف خطير غير قانوني، وقد يوقع أسرتك في خسائر مالية ضخمة.',
+                feedbackWrongTitle: '❌ انتبه! هذا تصرف خطير وخطأ',
+                feedbackWrongMsg: 'مشاركة البطاقات المالية للوالدين خطأ بالغ وتسهيل للاحتيال المالي. اطلب إذنهم دائماً.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🔍',
+                text: 'الاستفسار والتحقق مع شخص بالغ موثوق قبل إدخال أي بيانات شخصية في موقع إلكتروني جديد.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وحذر',
+                feedbackCorrectMsg: 'التأكد من مصداقية المواقع عبر مساعدة الكبار يجنبك التسجيل في منصات مشبوهة أو مزيفة تسرق البيانات.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'التسرع في إدخال بياناتك يعرض أمنك الرقمي للتهديد. تحقق دائماً مع والديك.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🌐',
+                text: 'استخدام شبكات واي فاي عامة وغير محمية لإجراء عمليات تسجيل الدخول لحساباتك الهامة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ',
+                feedbackCorrectMsg: 'الشبكات العامة يسهل مراقبتها واعتراض بياناتها من المتسللين. استخدم دائماً شبكاتك الخاصة والآمنة.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'الشبكات المفتوحة تشكل خطراً كبيراً على خصوصية كلمات مرورك ومراسلاتك الشخصية.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🚫',
+                text: 'حظر وإبلاغ إدارة التطبيق فوراً عن أي مستخدم يرسل كلاماً غير لائق أو يطلب صوراً خاصة.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن وحاسمة',
+                feedbackCorrectMsg: 'الحظر والإبلاغ يوقفان المعتدي فوراً عن مضايقتك، ويحمي بقية المستخدمين على الشبكة من أذاه.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'التساهل مع المضايقات والطلب المتكرر للمعلومات خطأ. احظر المزعجين فوراً وأبلغ الإدارة.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '📍',
+                text: 'مشاركة موقعك الجغرافي الحالي بالتفصيل وبث مباشر لرحلاتك العائلية على منصات التواصل للعامة.',
+                isSafeAction: false,
+                correctAnswer: 'danger',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف خاطئ وغير آمن',
+                feedbackCorrectMsg: 'مشاركة الموقع الجغرافي بشكل مباشر تسهل تتبع حركاتك وتعرف اللصوص بأوقات غيابك وخلو بيتك.',
+                feedbackWrongTitle: '❌ انتبه! هذا ليس التصرف الآمن',
+                feedbackWrongMsg: 'بث موقعك وتفاصيل تنقلك للعامة يهدد سلامتك الشخصية والمادية. احتفظ بها للأصدقاء المقربين فقط.'
+            },
+            {
+                topic: 'الأمان الرقمي 🔒',
+                emoji: '🔄',
+                text: 'تثبيت برامج مكافحة الفيروسات المعتمدة وتحديث نظام تشغيل جهازك بانتظام لضمان حمايته.',
+                isSafeAction: true,
+                correctAnswer: 'safe',
+                feedbackCorrectTitle: '✅ إجابة صحيحة! هذا تصرف آمن ودفاعي ممتاز',
+                feedbackCorrectMsg: 'التحديثات الدورية تسد الثغرات الأمنية المكتشفة وتمنع استغلال جهازك من المخترقين والبرمجيات الخبيثة.',
+                feedbackWrongTitle: '❌ حاول مجددًا!',
+                feedbackWrongMsg: 'إهمال التحديثات يجعل جهازك صيداً سهلاً للفيروسات. التحديث الدوري أساس الأمان.'
+            }
+        ];
+
+        let sortingScenarios = [];
+        let currentScenarioIndex = 0;
+        let gameScore = { correct: 0, wrong: 0, total: 0 };
+        let scenarioAnswered = false;
+
+        // دالة تحويل الأرقام إلى أرقام عربية شرقية
+        function toArabicNumerals(num) {
+            const arabicMap = { '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩' };
+            return num.toString().split('').map(d => arabicMap[d] || d).join('');
+        }
+
+        // ── تطبيق تلوين الكلمات المفتاحية للعبة ──
+        function applyKeywordHighlights(txt) {
+            return txt
+                .replace(/السلامة الشخصية/g, '<span style="color:#0ea5e9;font-weight:800;border-bottom:2px solid #0ea5e9;">السلامة الشخصية 🛡️</span>')
+                .replace(/العالم الرقمي/g, '<span style="color:#6366f1;font-weight:800;border-bottom:2px solid #6366f1;">العالم الرقمي 💻</span>')
+                .replace(/التنمر/g, '<span style="color:#ef4444;font-weight:800;border-bottom:2px solid #ef4444;">التنمر ❌</span>')
+                .replace(/\bلا\b/g, '<span style="color:#f97316;font-weight:800;border-bottom:2px solid #f97316;">لا 🛑</span>')
+                .replace(/آمن(?:ة)?/g, '<span style="color:#10b981;font-weight:800;border-bottom:2px solid #10b981;">آمن 🛡️</span>')
+                .replace(/خطر(?:اً|ة)?/g, '<span style="color:#ef4444;font-weight:800;border-bottom:2px solid #ef4444;">خطر ⚠️</span>')
+                .replace(/التحرش/g, '<span style="color:#b91c1c;font-weight:800;border-bottom:2px solid #b91c1c;">التحرش ⚠️</span>')
+                .replace(/السلامة/g, '<span style="color:#0ea5e9;font-weight:800;border-bottom:2px solid #0ea5e9;">السلامة 🔐</span>')
+                .replace(/كلمات المرور/g, '<span style="color:#8b5cf6;font-weight:800;border-bottom:2px solid #8b5cf6;">كلمات المرور 🔑</span>')
+                .replace(/كلمة المرور/g, '<span style="color:#8b5cf6;font-weight:800;border-bottom:2px solid #8b5cf6;">كلمة المرور 🔑</span>')
+                .replace(/الإنترنت/g, '<span style="color:#6366f1;font-weight:800;border-bottom:2px solid #6366f1;">الإنترنت 💻</span>')
+                .replace(/حظر/g, '<span style="color:#ef4444;font-weight:800;border-bottom:2px solid #ef4444;">حظر 🚫</span>')
+                .replace(/روابط مجهولة/g, '<span style="color:#f97316;font-weight:800;border-bottom:2px solid #f97316;">روابط مجهولة 🔗</span>');
+        }
+
+        // رسم مؤشرات الدوت التفاعلية ديناميكياً
+        function renderNavigationDots() {
+            const navContainer = document.querySelector('.scenario-nav');
+            if (!navContainer) return;
+
+            let dotsHtml = '';
+            sortingScenarios.forEach((s, idx) => {
+                let statusClass = '';
+                if (idx === currentScenarioIndex) {
+                    statusClass = 'active';
+                } else if (s.answered) {
+                    statusClass = s.answeredCorrectly ? 'answered-correct' : 'answered-wrong';
+                }
+
+                let topicName = 'سيناريو';
+                if (s.topic.includes('تنمر')) topicName = 'مناهضة التنمر';
+                else if (s.topic.includes('سلامة')) topicName = 'السلامة الشخصية';
+                else if (s.topic.includes('أمان')) topicName = 'الأمان الرقمي';
+
+                dotsHtml += `<button class="scenario-nav-dot ${statusClass}" id="dot-${idx}" onclick="loadScenario(${idx})" aria-label="السيناريو ${toArabicNumerals(idx + 1)}: ${topicName}"></button> `;
+            });
+
+            dotsHtml += `<span class="scenario-counter" id="scenario-counter">${toArabicNumerals(currentScenarioIndex + 1)} / ${toArabicNumerals(sortingScenarios.length)}</span>`;
+            navContainer.innerHTML = dotsHtml;
+        }
+
+        // تهيئة جولة لعب جديدة عشوائية (10 أسئلة من أصل 50)
+        function initializeRound() {
+            // خلط بنك الأسئلة بالكامل واختيار 10
+            const shuffled = [...MASTER_QUIZ_DATABASE].sort(() => 0.5 - Math.random());
+            sortingScenarios = shuffled.slice(0, 10).map((item, idx) => ({
+                ...item,
+                id: idx,
+                answered: false,
+                answeredCorrectly: null
+            }));
+
+            currentScenarioIndex = 0;
+            gameScore = { correct: 0, wrong: 0, total: 0 };
+            scenarioAnswered = false;
+
+            // تحديث لوحة النقاط في واجهة المستخدم
+            document.getElementById('score-correct').textContent = '0';
+            document.getElementById('score-wrong').textContent = '0';
+            document.getElementById('score-total').textContent = '0';
+
+            // إعادة ضبط الصناديق بصرياً
+            const safeBox = document.getElementById('sort-box-safe');
+            const dangerBox = document.getElementById('sort-box-danger');
+            if (safeBox) { safeBox.style.opacity = '1'; safeBox.style.cursor = 'pointer'; }
+            if (dangerBox) { dangerBox.style.opacity = '1'; dangerBox.style.cursor = 'pointer'; }
+
+            // إعادة إظهار المكونات المخفية عند الإنهاء
+            const arena = document.getElementById('sorting-arena');
+            const feedback = document.getElementById('sorting-feedback');
+            const complete = document.getElementById('sorting-complete');
+            const nav = document.querySelector('.scenario-nav');
+
+            if (arena) arena.style.display = '';
+            if (complete) complete.style.display = 'none';
+            if (nav) nav.style.display = '';
+
+            loadScenario(0);
+        }
+
+        // تحميل السيناريو الحالي
+        function loadScenario(index) {
+            currentScenarioIndex = index;
+            const s = sortingScenarios[index];
+            if (!s) return;
+
+            scenarioAnswered = s.answered || false;
+
+            // تحديث بطاقة السيناريو مع أنيميشن الدخول
+            const card = document.getElementById('scenario-card');
+            const emoji = document.getElementById('scenario-emoji');
+            const text = document.getElementById('scenario-text');
+            const topicLabel = document.getElementById('scenario-topic-label');
+            const hint = document.getElementById('scenario-hint');
+
+            if (card) {
+                card.classList.remove('entering');
+                void card.offsetWidth;
+                card.classList.add('entering');
+                card.style.borderColor = '#e2e8f0';
+                card.style.background = '';
+            }
+            if (emoji) emoji.textContent = s.emoji;
+            if (text) text.textContent = s.text;
+            if (topicLabel) topicLabel.textContent = s.topic;
+
+            // تحديث صندوق الترجمة بلغة الإشارة — يعرض نص الكورس الكامل بناءً على موضوع السيناريو
+            const gameSignText = document.getElementById('game-sign-subtitle-text');
+            if (gameSignText) {
+                // قاعدة بيانات الترجمات الكاملة للكورسات الثلاثة
+                const courseTranslations = {
+                    bullying: 'التنمر سلوك خاطئ ولا يعبر عن قيمتك الحقيقية. إذا واجهت كلمات جارحة أو سخرية في المدرسة، لا تعزل نفسك ولا تبكِ، بل قف بثقة، وتجاهل المتنمر، واذهب فوراً لإبلاغ المعلم أو والديك لحمايتك.',
+                    safety:   'جسدك ملكك وحدك ولا يحق لأي شخص لمسك أو إزعاجك. إذا شعرت بعدم الارتياح من أي شخص، قل لا بصوت عالٍ وقوي وابتعد فوراً. السلامة الشخصية حق أساسي لكل إنسان.',
+                    cyber:    'العالم الرقمي ممتع ولكن الحذر فيه واجب لحمايتك. لا تقم بالضغط على روابط مجهولة تدعي الفوز بجوائز، ولا تشارك معلوماتك الشخصية أو كلمات المرور مع الغرباء، واستخدم خاصية الحظر فوراً عند التعرض للمضايقة.'
+                };
+
+                // تحديد الكورس بناءً على موضوع السيناريو
+                let translationText = '';
+                const topic = s.topic || '';
+                if (topic.includes('تنمر')) {
+                    translationText = courseTranslations.bullying;
+                } else if (topic.includes('سلامة')) {
+                    translationText = courseTranslations.safety;
+                } else if (topic.includes('أمان') || topic.includes('رقمي')) {
+                    translationText = courseTranslations.cyber;
+                } else {
+                    translationText = s.text; // fallback
+                }
+
+                gameSignText.innerHTML = applyKeywordHighlights(translationText);
+            }
+
+            // إذا كان مجاباً بالفعل، اعرض التغذية الراجعة الخاصة به وأخف التلميح
+            const feedback = document.getElementById('sorting-feedback');
+            if (s.answered) {
+                if (hint) hint.style.display = 'none';
+                showFeedback(s.answeredCorrectly, s);
+
+                // تعتيم الصندوق غير المختار
+                const chosenBox = s.answeredCorrectly ?
+                    (s.correctAnswer === 'safe' ? document.getElementById('sort-box-safe') : document.getElementById('sort-box-danger')) :
+                    (s.correctAnswer === 'safe' ? document.getElementById('sort-box-danger') : document.getElementById('sort-box-safe'));
+                const otherBox = s.answeredCorrectly ?
+                    (s.correctAnswer === 'safe' ? document.getElementById('sort-box-danger') : document.getElementById('sort-box-safe')) :
+                    (s.correctAnswer === 'safe' ? document.getElementById('sort-box-safe') : document.getElementById('sort-box-danger'));
+
+                if (chosenBox) { chosenBox.style.opacity = '1'; chosenBox.style.cursor = 'pointer'; }
+                if (otherBox) { otherBox.style.opacity = '0.4'; otherBox.style.cursor = 'not-allowed'; }
+            } else {
+                if (feedback) feedback.style.display = 'none';
+                if (hint) hint.style.display = '';
+
+                // إعادة ضبط الصناديق
+                const safeBox = document.getElementById('sort-box-safe');
+                const dangerBox = document.getElementById('sort-box-danger');
+                if (safeBox) { safeBox.style.opacity = '1'; safeBox.style.cursor = 'pointer'; }
+                if (dangerBox) { dangerBox.style.opacity = '1'; dangerBox.style.cursor = 'pointer'; }
+            }
+
+            // رسم مؤشرات الدوت لتحديث المظهر
+            renderNavigationDots();
+
+            // مزامنة مع وضع الإعاقة الحالي
+            const currentType = (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) || 'hearing';
+            syncGameWithDisabilityMode(currentType);
+        }
+
+        // التحقق من اختيار المستخدم
+        function checkSortingChoice(choice) {
+            if (scenarioAnswered) return;
+            scenarioAnswered = true;
+
+            const s = sortingScenarios[currentScenarioIndex];
+            const isCorrect = choice === s.correctAnswer;
+
+            // حفظ حالة الإجابة في السيناريو
+            s.answered = true;
+            s.answeredCorrectly = isCorrect;
+
+            // تحديث النقاط
+            gameScore.total++;
+            if (isCorrect) {
+                gameScore.correct++;
+                document.getElementById('score-correct').textContent = gameScore.correct;
+            } else {
+                gameScore.wrong++;
+                document.getElementById('score-wrong').textContent = gameScore.wrong;
+            }
+            document.getElementById('score-total').textContent = gameScore.total;
+
+            // تأثير بصري على الصناديق
+            const chosenBox = choice === 'safe'
+                ? document.getElementById('sort-box-safe')
+                : document.getElementById('sort-box-danger');
+
+            const otherBox = choice === 'safe'
+                ? document.getElementById('sort-box-danger')
+                : document.getElementById('sort-box-safe');
+
+            if (chosenBox) {
+                chosenBox.classList.add(isCorrect ? 'correct-flash' : 'wrong-flash');
+                setTimeout(() => chosenBox.classList.remove('correct-flash', 'wrong-flash'), 700);
+            }
+
+            // تعطيل الصناديق بعد الاختيار وتعتيم الصندوق الآخر
+            if (otherBox) { otherBox.style.opacity = '0.4'; otherBox.style.cursor = 'not-allowed'; }
+
+            // تغيير لون بطاقة السيناريو
+            const card = document.getElementById('scenario-card');
+            if (card) {
+                card.style.borderColor = isCorrect ? '#10b981' : '#ef4444';
+                card.style.background = isCorrect ? '#f0fdf4' : '#fef2f2';
+            }
+
+            // إخفاء التلميح
+            const hint = document.getElementById('scenario-hint');
+            if (hint) hint.style.display = 'none';
+
+            // عرض التغذية الراجعة
+            showFeedback(isCorrect, s);
+
+            // تحديث الدوت فوراً
+            renderNavigationDots();
+        }
+
+        // عرض صندوق التغذية الراجعة
+        function showFeedback(isCorrect, scenario) {
+            const feedback = document.getElementById('sorting-feedback');
+            const fbIcon = document.getElementById('feedback-icon');
+            const fbTitle = document.getElementById('feedback-title');
+            const fbMsg = document.getElementById('feedback-message');
+            const fbNextBtn = document.getElementById('feedback-next-btn');
+
+            if (!feedback) return;
+
+            feedback.className = 'sorting-feedback ' + (isCorrect ? 'feedback-correct' : 'feedback-wrong');
+            feedback.style.display = 'flex';
+
+            if (fbIcon) fbIcon.textContent = isCorrect ? '🏅' : '💡';
+            if (fbTitle) fbTitle.textContent = isCorrect ? scenario.feedbackCorrectTitle : scenario.feedbackWrongTitle;
+            if (fbMsg) fbMsg.textContent = isCorrect ? scenario.feedbackCorrectMsg : scenario.feedbackWrongMsg;
+
+            // تحديث زر التالي في السيناريو الأخير للجولة
+            const isLast = currentScenarioIndex === sortingScenarios.length - 1;
+            if (fbNextBtn) {
+                fbNextBtn.innerHTML = isLast
+                    ? '<span>عرض النتيجة النهائية</span><i class="fas fa-trophy"></i>'
+                    : '<span>التالي</span><i class="fas fa-arrow-left"></i>';
+            }
+
+            // مزامنة TTS للإعاقة البصرية
+            const currentType = (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) || 'hearing';
+            if (currentType === 'visual' && typeof speak === 'function') {
+                const msgToRead = (isCorrect ? scenario.feedbackCorrectTitle : scenario.feedbackWrongTitle)
+                    + '. ' + (isCorrect ? scenario.feedbackCorrectMsg : scenario.feedbackWrongMsg);
+                speak(msgToRead, { rate: 0.9 });
+            }
+        }
+
+        // الانتقال للسيناريو التالي أو الإنهاء
+        function nextScenario() {
+            const nextIndex = currentScenarioIndex + 1;
+
+            if (nextIndex >= sortingScenarios.length) {
+                showGameComplete();
+            } else {
+                loadScenario(nextIndex);
+            }
+        }
+
+        // عرض شاشة الانتهاء للجولة
+        function showGameComplete() {
+            const arena = document.getElementById('sorting-arena');
+            const feedback = document.getElementById('sorting-feedback');
+            const complete = document.getElementById('sorting-complete');
+            const finalMsg = document.getElementById('final-score-msg');
+            const nav = document.querySelector('.scenario-nav');
+
+            if (arena) arena.style.display = 'none';
+            if (feedback) feedback.style.display = 'none';
+            if (nav) nav.style.display = 'none';
+            if (complete) complete.style.display = 'block';
+
+            const total = sortingScenarios.length;
+            if (finalMsg) {
+                const emoji = gameScore.correct === total ? '🌟' : gameScore.correct >= 8 ? '👍' : '💪';
+                finalMsg.textContent = `${emoji} نتيجتك في هذه الجولة: ${gameScore.correct} إجابات صحيحة من أصل ${total} سيناريوهات!`;
+            }
+
+            // TTS للإعاقة البصرية عند الإنهاء
+            const currentType = (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) || 'hearing';
+            if (currentType === 'visual' && typeof speak === 'function') {
+                speak(`أكملت الجولة بنجاح! نتيجتك النهائية: ${gameScore.correct} من ${total}`, { rate: 0.9 });
+            }
+        }
+
+        // إعادة اللعب من الصفر وبدء جولة عشوائية جديدة
+        function resetGame() {
+            initializeRound();
+        }
+
+        // مزامنة مرئية اللعبة وصندوق لغة الإشارة مع وضع الإعاقة
+        function syncGameWithDisabilityMode(type) {
+            const section = document.getElementById('sorting-game-section');
+            if (!section) return;
+
+            // إزالة جميع أصناف الوضع السابقة
+            section.classList.remove('mode-visual-active', 'mode-autism-active');
+
+            if (type === 'visual') {
+                section.classList.add('mode-visual-active');
+                // قراءة السيناريو الحالي تلقائياً
+                const text = document.getElementById('scenario-text');
+                if (text && typeof speak === 'function' && !scenarioAnswered) {
+                    setTimeout(() => speak(text.textContent, { rate: 0.85, pitch: 1.05 }), 400);
+                }
+            } else if (type === 'cognitive' || type === 'learning') {
+                section.classList.add('mode-autism-active');
+            }
+
+            // تحديث ظهور صندوق الترجمة بلغة الإشارة التابع للعبة
+            // يظهر في وضع السمعية أو إذا لم يُحدَّد وضع بعد — يُخفى فقط في الأوضاع الأخرى
+            const gameSignBox = document.getElementById('game-sign-subtitle-box');
+            if (gameSignBox) {
+                if (!type || type === 'hearing') {
+                    gameSignBox.style.display = 'block';
+                } else {
+                    gameSignBox.style.display = 'none';
+                }
+            }
+        }
+
+        // تحميل أول سيناريو وتهيئة الجولة العشوائية عند بدء الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                initializeRound();
+                // تأكيد مزامنة صندوق الإشارة مع الوضع الحالي بعد تهيئة اللعبة
+                const initType = (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) || 'hearing';
+                syncGameWithDisabilityMode(initType);
+            }, 500);
+        });
+
+        // تهيئة التبديل البصري الافتراضي عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const activeType = (typeof accessibilityManager !== 'undefined' && accessibilityManager.currentDisabilityType) || 'hearing';
+                document.querySelectorAll('.switcher-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                let btnId = 'btn-' + activeType;
+                const activeBtn = document.getElementById(btnId);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+            }, 300);
+        });
+    </script>
+
+    <style>
+        /* شريط التبديل بين الإعاقات */
+        .disability-switcher-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+            padding: var(--spacing-sm);
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .switcher-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            color: var(--text-secondary);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            transition: all var(--transition-base);
+        }
+
+        .switcher-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .switcher-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-glow);
+            border-color: transparent;
+        }
+
+        .dashboard-header {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .back-btn-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .back-btn-header:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .education-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl);
+        }
+
+        .categories-section {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .categories-grid {
+            display: flex;
+            gap: var(--spacing-md);
+            overflow-x: auto;
+            padding-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
+        .category-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            min-width: 100px;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .category-btn i {
+            font-size: var(--font-size-2xl);
+        }
+
+        .lessons-section {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .lesson-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .lesson-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .lesson-content {
+            padding: var(--spacing-xl);
+        }
+
+        .lesson-category {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .lesson-card h4 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .lesson-card p {
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .progress-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--font-size-2xl);
+        }
+
+        .stat-content h4 {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-content p {
+            color: var(--text-muted);
+        }
+
+        .lesson-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--spacing-lg);
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: var(--spacing-lg);
+            left: var(--spacing-lg);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .modal-close:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lesson-header {
+            padding: var(--spacing-3xl);
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .lesson-body {
+            padding: var(--spacing-3xl);
+            min-height: 300px;
+        }
+
+        .lesson-actions {
+            padding: var(--spacing-xl) var(--spacing-3xl);
+            border-top: 1px solid var(--bg-tertiary);
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .education-main {
+                padding: var(--spacing-lg);
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* رسومات وحركات تفاعلية للأفاتار ثلاثي الأبعاد والبطاقات التعليمية */
+        @keyframes robotFloat {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+
+        @keyframes gestureBounce {
+            0% { transform: scale(0.3); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* ============================================
+           🎮 لعبة صندوق الفرز التفاعلي المتقدمة
+        ============================================ */
+
+        .sorting-game-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #fef3c7 50%, #fdf2f8 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-3xl);
+            margin-top: var(--spacing-3xl);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .sorting-game-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* هيدر اللعبة */
+        .sorting-game-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .sorting-game-title-row {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .sorting-game-icon-badge {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-primary);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 8px 20px rgba(99,102,241,0.3);
+            flex-shrink: 0;
+        }
+
+        .sorting-game-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+            background: linear-gradient(135deg, #4f46e5, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sorting-game-subtitle {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* لوحة النقاط */
+        .sorting-score-board {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            background: var(--bg-secondary);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border: 2px solid #e2e8f0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .score-item i { font-size: 1.3rem; }
+        .score-item span { font-size: 1.6rem; font-weight: 900; }
+        .score-item small { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); }
+        .score-correct i, .score-correct span { color: #10b981; }
+        .score-wrong i, .score-wrong span { color: #ef4444; }
+        .score-total i, .score-total span { color: #6366f1; }
+        .score-divider { color: #cbd5e1; font-size: 1.5rem; }
+
+        /* مؤشر السيناريوهات */
+        .scenario-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .scenario-nav-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            border: 2px solid #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .scenario-nav-dot.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(99,102,241,0.4);
+        }
+
+        .scenario-nav-dot.answered-correct {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .scenario-nav-dot.answered-wrong {
+            background: #ef4444;
+            border-color: #ef4444;
+        }
+
+        .scenario-counter {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-right: var(--spacing-md);
+        }
+
+        /* منطقة اللعبة: الشبكة الثلاثية */
+        .sorting-arena {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: stretch;
+            min-height: 280px;
+        }
+
+        /* صناديق الاختيار */
+        .sort-box {
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 3px solid transparent;
+            user-select: none;
+        }
+
+        .sort-box:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .sort-box:active {
+            transform: scale(0.96);
+        }
+
+        .sort-box-safe {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-color: #10b981;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .sort-box-danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-color: #ef4444;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+        }
+
+        .sort-box.correct-flash {
+            animation: correctFlash 0.6s ease;
+        }
+
+        .sort-box.wrong-flash {
+            animation: wrongFlash 0.6s ease;
+        }
+
+        @keyframes correctFlash {
+            0%, 100% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.5), 0 10px 40px rgba(16,185,129,0.5); transform: scale(1.06); }
+        }
+
+        @keyframes wrongFlash {
+            0%, 100% { box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2); }
+            50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.4), 0 10px 40px rgba(239,68,68,0.4); transform: scale(1.06); }
+        }
+
+        .sort-box-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: var(--radius-xl);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .sort-box:hover .sort-box-glow { opacity: 1; }
+        .safe-glow { background: radial-gradient(circle at center, rgba(16,185,129,0.15) 0%, transparent 70%); }
+        .danger-glow { background: radial-gradient(circle at center, rgba(239,68,68,0.12) 0%, transparent 70%); }
+
+        .sort-box-icon {
+            font-size: 4rem;
+            line-height: 1;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .sort-box-label {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .sort-box-safe .sort-box-label { color: #065f46; }
+        .sort-box-danger .sort-box-label { color: #991b1b; }
+
+        .sort-box-sublabel {
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.7;
+            margin: 0;
+        }
+
+        .sort-box-safe .sort-box-sublabel { color: #047857; }
+        .sort-box-danger .sort-box-sublabel { color: #b91c1c; }
+
+        .sort-box-pulse {
+            position: absolute;
+            bottom: 10px;
+            width: 40px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .safe-pulse { background: #10b981; animation: pulseBar 1.5s ease-in-out infinite; }
+        .danger-pulse { background: #ef4444; animation: pulseBar 1.5s ease-in-out infinite 0.5s; }
+
+        @keyframes pulseBar {
+            0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
+            50% { opacity: 1; transform: scaleX(1.2); }
+        }
+
+        /* بطاقة السيناريو المركزية */
+        .scenario-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .scenario-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(99,102,241,0.3);
+        }
+
+        .scenario-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            transition: all 0.4s ease;
+        }
+
+        .scenario-card.entering {
+            animation: scenarioEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scenarioEnter {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .scenario-emoji {
+            font-size: 4.5rem;
+            line-height: 1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .scenario-text {
+            font-size: 1.1rem;
+            line-height: 1.75;
+            color: #1e293b;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+        }
+
+        .scenario-hint {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* صندوق التغذية الراجعة */
+        .sorting-feedback {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl) var(--spacing-2xl);
+            margin-top: var(--spacing-xl);
+            animation: feedbackSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-wrap: wrap;
+        }
+
+        @keyframes feedbackSlideIn {
+            from { opacity: 0; transform: translateY(25px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .sorting-feedback.feedback-correct {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 3px solid #10b981;
+            box-shadow: 0 10px 30px rgba(16,185,129,0.25);
+        }
+
+        .sorting-feedback.feedback-wrong {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 3px solid #ef4444;
+            box-shadow: 0 10px 30px rgba(239,68,68,0.2);
+        }
+
+        .feedback-icon {
+            font-size: 3.5rem;
+            flex-shrink: 0;
+        }
+
+        .feedback-body { flex: 1; text-align: right; }
+
+        .feedback-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin: 0 0 5px 0;
+        }
+
+        .sorting-feedback.feedback-correct .feedback-title { color: #065f46; }
+        .sorting-feedback.feedback-wrong .feedback-title { color: #991b1b; }
+
+        .feedback-message {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .sorting-feedback.feedback-correct .feedback-message { color: #047857; }
+        .sorting-feedback.feedback-wrong .feedback-message { color: #b91c1c; }
+
+        .feedback-next-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+            flex-shrink: 0;
+        }
+
+        .feedback-next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99,102,241,0.4);
+        }
+
+        /* شاشة الإنهاء */
+        .sorting-complete {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            margin-top: var(--spacing-xl);
+            background: linear-gradient(135deg, #fef9c3, #fef3c7);
+            border: 3px solid #f59e0b;
+            border-radius: var(--radius-xl);
+            animation: feedbackSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sorting-complete h3 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #92400e;
+            margin: 0 0 10px 0;
+        }
+
+        .sorting-complete p {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #b45309;
+            margin: 0;
+        }
+
+        /* وضع الإعاقة البصرية */
+        body.theme-visual .sorting-game-section,
+        .mode-visual-active .sorting-game-section {
+            background: #000000 !important;
+            border-color: #facc15 !important;
+        }
+
+        body.theme-visual .scenario-card,
+        .mode-visual-active .scenario-card {
+            background: #000000 !important;
+            border: 3px solid #facc15 !important;
+        }
+
+        body.theme-visual .scenario-text,
+        .mode-visual-active .scenario-text {
+            color: #facc15 !important;
+            font-size: 1.5rem !important;
+            font-weight: 900 !important;
+        }
+
+        body.theme-visual .sorting-game-title,
+        .mode-visual-active .sorting-game-title {
+            -webkit-text-fill-color: #facc15 !important;
+        }
+
+        body.theme-visual .sorting-score-board,
+        .mode-visual-active .sorting-score-board {
+            background: #1a1a1a !important;
+            border-color: #facc15 !important;
+        }
+
+        body.theme-visual .feedback-next-btn,
+        .mode-visual-active .feedback-next-btn {
+            background: #facc15 !important;
+            color: #000000 !important;
+            font-size: 1.3rem !important;
+            padding: 18px 30px !important;
+        }
+
+        /* وضع التوحد / صعوبات التعلم */
+        body.theme-cognitive .sort-box-icon,
+        body.theme-learning .sort-box-icon,
+        .mode-autism-active .sort-box-icon {
+            font-size: 5.5rem !important;
+        }
+
+        body.theme-cognitive .scenario-emoji,
+        body.theme-learning .scenario-emoji,
+        .mode-autism-active .scenario-emoji {
+            font-size: 6.5rem !important;
+        }
+
+        body.theme-cognitive .scenario-text,
+        body.theme-learning .scenario-text,
+        .mode-autism-active .scenario-text {
+            font-size: 1.35rem !important;
+            line-height: 2 !important;
+            word-spacing: 4px !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        body.theme-cognitive .sort-box,
+        body.theme-learning .sort-box,
+        .mode-autism-active .sort-box {
+            padding: 40px 20px !important;
+            border-width: 5px !important;
+        }
+
+        body.theme-cognitive .sort-box-label,
+        body.theme-learning .sort-box-label,
+        .mode-autism-active .sort-box-label {
+            font-size: 1.6rem !important;
+        }
+
+        /* استجابة الهاتف */
+        @media (max-width: 768px) {
+            .sorting-arena {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .sort-box {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: var(--spacing-xl);
+                gap: var(--spacing-lg);
+            }
+
+            .sort-box-icon { font-size: 2.5rem; animation: none; }
+
+            .sort-box-pulse { display: none; }
+
+            .sorting-game-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sorting-score-board {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .sorting-game-title { font-size: 1.2rem; }
+        }
+    </style>
+</body>
+
+</html>
